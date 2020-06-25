@@ -45,9 +45,21 @@ public class MessageProcessor implements MessageListener {
             StringReader reader = new StringReader(messsageToCheck);
             msg = (MSG) jaxbUnmarshaller.unmarshal(reader);
             System.out.println(msg.getInfo());
+            checkMessage((String) msg.getData()[0]);
         } catch (JAXBException | JMSException ex) {
             Logger.getLogger(MessageProcessor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    private boolean checkMessage(String txt) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    private String findSecret(String txt) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    private double calculateConfidence(String sample, String wholeText) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
