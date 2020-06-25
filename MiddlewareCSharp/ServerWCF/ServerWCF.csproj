@@ -45,6 +45,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -64,6 +65,10 @@
     <ProjectReference Include="..\DAL\DAL.csproj">
       <Project>{631642e9-b01f-4a17-988f-cc104d69c38f}</Project>
       <Name>DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MiddlewareWCF\MiddlewareWCF.csproj">
+      <Project>{75f3d5e7-2e79-4f59-a471-0a5cc52da9a6}</Project>
+      <Name>MiddlewareWCF</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
