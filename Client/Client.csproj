@@ -57,12 +57,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="DecodeFile.cs" />
     <Compile Include="IAction.cs" />
     <Compile Include="IMessenger.cs" />
-    <Compile Include="Login.cs" />
     <Compile Include="LoginMessenger.cs" />
-    <Compile Include="Logout.cs" />
     <Compile Include="MainView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,9 +69,9 @@
     <Compile Include="Postman.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Register.cs" />
     <Compile Include="RegisterMessenger.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="UserAction.cs" />
     <EmbeddedResource Include="MainView.resx">
       <DependentUpon>MainView.cs</DependentUpon>
     </EmbeddedResource>

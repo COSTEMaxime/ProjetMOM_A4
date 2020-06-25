@@ -27,22 +27,23 @@ namespace Client {
         }
 
         private void loginButton_Click(object sender, EventArgs e) {
-            action = new Login(user, app);
+            action = new UserAction(new LoginMessenger(user, app));
             action.carryOut();
         }
 
         private void registerButton_Click(object sender, EventArgs e) {
-            action = new Register(user, app);
+            action = new UserAction(new RegisterMessenger(user, app));
             action.carryOut();
         }
 
         private void logoutButton_Click(object sender, EventArgs e) {
-            action = new Logout();
-            action.carryOut();
+            // action = new UserAction(new LogoutMessenger(user, app));
+            // action.carryOut();
+            throw new NotImplementedException();
         }
 
         private void decryptionButton_Click(object sender, EventArgs e) {
-            action = new DecodeFile(user, app);
+            action = new UserAction(new FileDecodeMessenger(user, app));
             action.carryOut();
         }
     }

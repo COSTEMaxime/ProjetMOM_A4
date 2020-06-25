@@ -5,22 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Client {
-    class Register : IAction {
+    class UserAction : IAction {
 
         User user;
         ApplicationInfo appInfo;
 
         IMessenger messenger;
 
-        public Register(User user, ApplicationInfo appInfo) {
-            this.user = user;
-            this.appInfo = appInfo;
-
-            messenger = new RegisterMessenger(user, appInfo);
+        public UserAction(IMessenger messenger) {
+            this.messenger = messenger;
         }
 
         public void carryOut() {
-            throw new NotImplementedException();
+            MiddlewareService.Message msg = messenger.writeMessage();
+
+            Postman postman = new Postman();
+            postman.sendMessage(msg);
         }
     }
 }

@@ -20,6 +20,10 @@ namespace Client {
 
             Message msg = new Message();
 
+            object[] data = new object[2];
+            data.Append(user.Username);
+            data.Append(user.Password);
+
             msg.appToken = appInfo.Token;
             msg.appVersion = appInfo.Version;
             msg.operationName = "serviceLogin";
@@ -27,6 +31,7 @@ namespace Client {
             msg.operationStatus = false;
             msg.userToken = user.Token;
             msg.info = "";
+            msg.data = data;
 
             return msg;
         }
