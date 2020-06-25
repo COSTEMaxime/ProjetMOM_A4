@@ -5,7 +5,11 @@
  */
 package com.checker.messagemgmt.facade;
 
+import javax.annotation.Resource;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.jms.JMSContext;
+import javax.jms.Queue;
 import javax.jws.WebService;
 
 /**
@@ -14,19 +18,26 @@ import javax.jws.WebService;
  */
 @Stateless
 @WebService(
-  endpointInterface = "com.checker.messagemgmt.facade.CheckerServiceEndpointInterface",
-  portName = "CheckerPort",
-  serviceName = "CheckerService"
- )
+        endpointInterface = "com.checker.messagemgmt.facade.CheckerServiceEndpointInterface",
+        portName = "CheckerPort",
+        serviceName = "CheckerService"
+)
 
 public class CheckerServiceBean implements CheckerServiceEndpointInterface {
 
+    @Inject
+    private JMSContext context;
+
+    @Resource(lookup = "jms/messageQueue")
+    private Queue messageQueue;
+
     @Override
-    public Boolean findSecret(String txt) {
-        System.out.println(txt);
+    public boolean findSecret(String serializedMsg) {
+        sendMessage(serializedMsg);
         return true;
     }
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    private void sendMessage(String serializedMsg) {
+        context.createProducer().send(messageQueue, serializedMsg);
+    }
 }

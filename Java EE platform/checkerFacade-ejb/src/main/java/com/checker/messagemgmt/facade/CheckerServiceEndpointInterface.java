@@ -17,6 +17,6 @@ import javax.jws.WebService;
 @WebService(name = "CheckerEndpoint")
 public interface CheckerServiceEndpointInterface {
     @WebMethod(operationName = "checkOperation")
-    @WebResult(name = "checkedText")
-    Boolean findSecret(@WebParam(name="textToCheck")String txt);
+    @WebResult(name = "checkedMessage")
+    boolean findSecret(@WebParam(name="message")String serializedMsg);
 }
