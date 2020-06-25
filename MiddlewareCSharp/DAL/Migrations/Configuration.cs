@@ -23,7 +23,7 @@
             context.UserGroups.Add(adminGroup);
             context.SaveChanges();
 
-            ServiceEntity serviceDecrypt = new ServiceEntity { ServiceName = "ServiceDecrypt" };
+            ServiceEntity serviceDecrypt = new ServiceEntity { ServiceName = "serviceDecrypt" };
             context.Services.Add(serviceDecrypt);
             context.SaveChanges();
 

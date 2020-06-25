@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -48,6 +50,11 @@ namespace DAL
         public bool AddUser(UserEntity newUser)
         {
             dbContext.Users.Add(newUser);
+            return SaveChanges();
+        }
+
+        public bool SaveChanges()
+        {
             try
             {
                 dbContext.SaveChanges();

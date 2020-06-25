@@ -11,7 +11,7 @@ namespace MiddlewareWCF
     {
         public Message ExecuteService(Message message)
         {
-            throw new NotImplementedException();
+            return BusinessAccessLayer.Dispatch(message);
         }
     }
 }
