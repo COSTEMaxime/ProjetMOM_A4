@@ -11,10 +11,10 @@ namespace DAL
     {
         public UserGroupConfiguration()
         {
-            this.ToTable("tUserGroup");
+            this.ToTable("UserGroup");
 
-            this.HasKey(u => u.UserGroupID);
-            this.Property(u => u.UserGroupID)
+            this.HasKey(u => u.ID);
+            this.Property(u => u.ID)
                 .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
 
             this.HasIndex(u => u.UserGroupName).IsUnique();

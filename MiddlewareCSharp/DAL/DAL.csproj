@@ -56,6 +56,10 @@
     <Compile Include="Migrations\202006242134036_InitialMigration.designer.cs">
       <DependentUpon>202006242134036_InitialMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202006251659038_UpdateTableNames.cs" />
+    <Compile Include="Migrations\202006251659038_UpdateTableNames.designer.cs">
+      <DependentUpon>202006251659038_UpdateTableNames.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MiddlewareDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,6 +79,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202006242134036_InitialMigration.resx">
       <DependentUpon>202006242134036_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006251659038_UpdateTableNames.resx">
+      <DependentUpon>202006251659038_UpdateTableNames.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

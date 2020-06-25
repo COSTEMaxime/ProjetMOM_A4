@@ -8,7 +8,7 @@ namespace DAL
 {
     public class ServiceEntity
     {
-        public int ServiceID { get; set; }
+        public int ID { get; set; }
         public string ServiceName { get; set; }
     }
 }

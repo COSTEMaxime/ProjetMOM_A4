@@ -19,16 +19,16 @@
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data.
-            UserGroupEntity adminGroup = new UserGroupEntity { UserGroupName = "admin" };
-            context.UserGroups.Add(adminGroup);
+            UserGroupEntity adminGroup = new UserGroupEntity { ID = 0, UserGroupName = "admin"};
+            context.UserGroups.AddOrUpdate(adminGroup);
             context.SaveChanges();
 
-            ServiceEntity serviceDecrypt = new ServiceEntity { ServiceName = "serviceDecrypt" };
-            context.Services.Add(serviceDecrypt);
+            ServiceEntity serviceDecrypt = new ServiceEntity { ID = 0, ServiceName = "serviceDecrypt"};
+            context.Services.AddOrUpdate(serviceDecrypt);
             context.SaveChanges();
 
-            UserGroupServiceEntity adminDecrypt = new UserGroupServiceEntity { ServiceID = serviceDecrypt.ServiceID, UserGroupID = adminGroup.UserGroupID };
-            context.UserGroupServices.Add(adminDecrypt);
+            UserGroupServiceEntity adminDecrypt = new UserGroupServiceEntity { ID = 0, ServiceID = serviceDecrypt.ID, UserGroupID = adminGroup.ID };
+            context.UserGroupServices.AddOrUpdate(adminDecrypt);
             context.SaveChanges();
 
             base.Seed(context);

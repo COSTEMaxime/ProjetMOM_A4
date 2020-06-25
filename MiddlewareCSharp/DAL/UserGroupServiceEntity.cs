@@ -8,7 +8,7 @@ namespace DAL
 {
     public class UserGroupServiceEntity
     {
-        public int UserGroupServiceID { get; set; }
+        public int ID { get; set; }
         public int UserGroupID { get; set; }
         public int ServiceID { get; set; }
 

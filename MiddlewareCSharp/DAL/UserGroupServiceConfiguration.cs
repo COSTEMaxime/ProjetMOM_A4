@@ -11,9 +11,9 @@ namespace DAL
     {
         public UserGroupServiceConfiguration()
         {
-            this.ToTable("tUserGroupService");
-            this.HasKey(u => u.UserGroupServiceID);
-            this.Property(u => u.UserGroupServiceID)
+            this.ToTable("UserGroupService");
+            this.HasKey(u => u.ID);
+            this.Property(u => u.ID)
                 .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
 
             this.Property(u => u.ServiceID).IsRequired();
