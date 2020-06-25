@@ -11,7 +11,40 @@ namespace MiddlewareWCF
     {
         public Message Execute(Message message)
         {
-            throw new NotImplementedException();
+            string login, password;
+
+            try
+            {
+                login = (string)message.data[0];
+                password = (string)message.data[1];
+            }
+            catch (Exception)
+            {
+                return new Message
+                {
+                    info = "Malformed message",
+                    operationStatus = false
+                };
+            }
+
+            BLLogin blLogin = new BLLogin();
+
+            if (blLogin.Login(login, password))
+            {
+                return new Message
+                {
+                    info = "Success (login)",
+                    operationStatus = true
+                };
+            }
+            else
+            {
+                return new Message
+                {
+                    info = "Login failed (invalid login or password)",
+                    operationStatus = false
+                };
+            }
         }
     }
 }

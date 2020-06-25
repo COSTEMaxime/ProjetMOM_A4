@@ -64,6 +64,10 @@
       <Project>{a29b1a27-0932-4f8d-a6d4-1737c1b4de98}</Project>
       <Name>ContractWCF</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{631642E9-B01F-4A17-988F-CC104D69C38F}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
