@@ -8,6 +8,7 @@ package com.checker.messagemgmt.contract;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -17,21 +18,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
     @XmlAccessorType(XmlAccessType.FIELD)
 public class MSG {
-    @XmlAttribute
+    @XmlElement
     private boolean opStatus;
-    @XmlAttribute
+    @XmlElement
     private String info;
-    @XmlAttribute
+    @XmlElement
     private Object[] data;
     @XmlAttribute
     private String operationName;
-    @XmlAttribute
+    @XmlElement
     private String appToken;
-    @XmlAttribute
+    @XmlElement
     private String userToken;
-    @XmlAttribute
+    @XmlElement
     private String appVersion;
-    @XmlAttribute
+    @XmlElement
     private String operationVersion;
 
     public static class MSGBuilder {
