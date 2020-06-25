@@ -13,7 +13,6 @@ namespace MiddlewareWCF
         {
             // can't authenticate user if he is creating an account / login
 
-
             // rework this
             if (message.operationName != "serviceRegister" && message.operationName != "serviceLogin")
             {
