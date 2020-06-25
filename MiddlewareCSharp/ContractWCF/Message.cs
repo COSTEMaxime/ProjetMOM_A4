@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ContractWCF
 {
     [System.Runtime.Serialization.DataContract]
+    [System.Runtime.Serialization.KnownType(typeof(List<string>))]
     public struct Message
     {
         [System.Runtime.Serialization.DataMember]
