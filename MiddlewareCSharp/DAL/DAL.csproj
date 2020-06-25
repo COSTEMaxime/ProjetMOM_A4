@@ -5,19 +5,18 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{288F6F9A-FEBC-474F-853B-FF521284B143}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>ServerWCF</RootNamespace>
-    <AssemblyName>ServerWCF</AssemblyName>
+    <ProjectGuid>{631642E9-B01F-4A17-988F-CC104D69C38F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DAL</RootNamespace>
+    <AssemblyName>DAL</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -27,7 +26,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -53,18 +51,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="DAO.cs" />
+    <Compile Include="Migrations\202006242134036_InitialMigration.cs" />
+    <Compile Include="Migrations\202006242134036_InitialMigration.designer.cs">
+      <DependentUpon>202006242134036_InitialMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="MiddlewareDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceConfiguration.cs" />
+    <Compile Include="ServiceEntity.cs" />
+    <Compile Include="UserConfiguration.cs" />
+    <Compile Include="UserEntity.cs" />
+    <Compile Include="UserGroupConfiguration.cs" />
+    <Compile Include="UserGroupEntity.cs" />
+    <Compile Include="UserGroupServiceConfiguration.cs" />
+    <Compile Include="UserGroupServiceEntity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DAL\DAL.csproj">
-      <Project>{631642e9-b01f-4a17-988f-cc104d69c38f}</Project>
-      <Name>DAL</Name>
-    </ProjectReference>
+    <EmbeddedResource Include="Migrations\202006242134036_InitialMigration.resx">
+      <DependentUpon>202006242134036_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
