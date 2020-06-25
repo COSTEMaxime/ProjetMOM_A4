@@ -1,6 +1,7 @@
 # ProjetMOM_A4
 
-To setup the JEE environment
+## JavaEE
+### To setup the JEE environment
 
 1) in cmd run ```asadmin --user admin create-domain --portbase 13000 --savemasterpassword=true checker```
 
@@ -66,3 +67,10 @@ To setup the JEE environment
 	Right click it and select Test Web Service
 
 19) Test the webservice with <?xml version="1.0" encoding="UTF-8" standalone="yes"?><msg><opStatus>false</opStatus><info>some info</info></msg>
+
+---
+## Install Middleware C#
+### Database
+- Create a database (preferably using SQL Server) named `db_middleware`.
+- Open VS then open the Package Manager Console for the `DAL` project
+- Type `Update-Database`
