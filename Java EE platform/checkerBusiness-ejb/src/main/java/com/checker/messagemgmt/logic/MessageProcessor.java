@@ -6,6 +6,7 @@
 package com.checker.messagemgmt.logic;
 
 import com.checker.messagemgmt.contract.MSG;
+import com.checker.messagemgmt.logic.checkers.FrenchChecker;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.StringReader;
@@ -52,6 +53,7 @@ public class MessageProcessor implements MessageListener {
     }
     
     private boolean checkMessage(String txt) {
+        new FrenchChecker().check(txt);
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
