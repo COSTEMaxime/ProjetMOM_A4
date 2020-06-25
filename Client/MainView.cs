@@ -11,15 +11,19 @@ using System.Windows.Forms;
 namespace Client {
     public partial class MainView : Form {
 
-        User user;
-        ApplicationInfo app;
+        User userInfo;
+        ApplicationInfo appInfo;
+        Controller ctrl;
 
-        IAction action;
-
-        public MainView() {
+        public MainView(User userInfo, ApplicationInfo appInfo, Controller ctrl) {
             InitializeComponent();
-            user = new User();
-            app = new ApplicationInfo();
+            this.userInfo = userInfo;
+            this.appInfo = appInfo;
+            this.ctrl = ctrl;
+        }
+
+        public void appendConsole(string message) {
+            consoleTextBox.AppendText(message);
         }
 
         private void systemFilesTreeView_AfterSelect(object sender, TreeViewEventArgs e) {
@@ -27,24 +31,24 @@ namespace Client {
         }
 
         private void loginButton_Click(object sender, EventArgs e) {
-            action = new UserAction(new LoginMessenger(user, app));
-            action.carryOut();
+            ctrl.login();
         }
 
         private void registerButton_Click(object sender, EventArgs e) {
-            action = new UserAction(new RegisterMessenger(user, app));
-            action.carryOut();
+ 
+            // Update model
+            userInfo.Username = usernameTextBox.Text;
+            userInfo.Password = passwordTextBox.Text;
+
+            ctrl.register();
         }
 
         private void logoutButton_Click(object sender, EventArgs e) {
-            // action = new UserAction(new LogoutMessenger(user, app));
-            // action.carryOut();
-            throw new NotImplementedException();
+            ctrl.logout();
         }
 
         private void decryptionButton_Click(object sender, EventArgs e) {
-            action = new UserAction(new FileDecodeMessenger(user, app));
-            action.carryOut();
+            ctrl.decodeFile();
         }
     }
 }

@@ -11,9 +11,16 @@ namespace Client {
         /// </summary>
         [STAThread]
         static void Main() {
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainView());
+
+            // Create Model
+            User userInfo = new User();
+            ApplicationInfo appInfo = new ApplicationInfo();
+
+            // Create Controller (which starts the view)
+            Controller ctrl = new Controller(userInfo, appInfo);
         }
     }
 }

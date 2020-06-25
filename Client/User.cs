@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Client {
-    class User : GlobalInformation {
+    public class User {
         
         public User() {
             Username = "";

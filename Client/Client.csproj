@@ -49,8 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationInfo.cs" />
+    <Compile Include="Controller.cs" />
     <Compile Include="FileDecodeMessenger.cs" />
-    <Compile Include="GlobalInformation.cs" />
+    <Compile Include="IInputValidator.cs" />
     <Compile Include="LogoutMessenger.cs" />
     <Compile Include="Connected Services\MiddlewareService\Reference.cs">
       <AutoGen>True</AutoGen>

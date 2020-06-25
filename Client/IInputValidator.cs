@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Client {
-    class GlobalInformation {
-
+    interface IInputValidator {
+        bool IsValid();
     }
 }

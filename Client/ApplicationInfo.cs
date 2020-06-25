@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Client {
-    class ApplicationInfo {
+    public class ApplicationInfo {
         public string Version { get; set; }
         public string Token { get; set; }
     }

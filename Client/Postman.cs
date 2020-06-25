@@ -10,7 +10,18 @@ namespace Client {
 
         public Message sendMessage(Message msg) {
             ServiceEntryPointClient client = new ServiceEntryPointClient();
-            return client.AccessService(msg);
+
+            Message response;
+
+            try {
+                response = client.AccessService(msg);
+            } catch(System.ServiceModel.EndpointNotFoundException e) {
+                response = new Message();
+                response.operationStatus = false;
+                response.info = "Endpoint not found !";
+            }
+
+            return response;
         }
     }
 }
