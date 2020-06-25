@@ -9,12 +9,45 @@ namespace MiddlewareWCF
 {
     class BusinessAccessLayer
     {
-        public Message Dispatch(Message message)
+        static public Message Dispatch(Message message)
         {
-            throw new NotImplementedException();
+            // can't authenticate user if he is creating an account / login
+
+
+            // rework this
+            if (message.operationName != "serviceRegister" && message.operationName != "serviceLogin")
+            {
+                if (!BusinessAccessLayer.CheckAuthorisation(message))
+                {
+                    return new Message
+                    {
+                        info = "You don't have access to this service : " + message.appVersion,
+                        operationStatus = false
+                    };
+                }
+            }
+
+            IWorkflowOrchestrator workflowOrchestrator;
+
+            switch(message.operationName)
+            {
+                case "serviceRegister":
+                    workflowOrchestrator = new WORegister();
+                    break;
+                case "serviceLogin":
+                    workflowOrchestrator = new WOLogin();
+                    break;
+                case "serviceDecrypt":
+                    workflowOrchestrator = new WODecrypt();
+                    break;
+                default:
+                    throw new Exception("WorkflowOrchestrator \"" + message.operationName +"\" does not exists");
+            }
+
+            return workflowOrchestrator.Execute(message);
         }
 
-        private bool CheckAuthorisation(Message message)
+        static private bool CheckAuthorisation(Message message)
         {
             throw new NotImplementedException();
         }
