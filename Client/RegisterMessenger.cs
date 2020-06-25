@@ -7,7 +7,16 @@ using System.Threading.Tasks;
 
 namespace Client {
     class RegisterMessenger : IMessenger {
-        public Message writeMessage(ApplicationInfo info, object[] data) {
+
+        User user;
+        ApplicationInfo appInfo;
+
+        public RegisterMessenger(User user, ApplicationInfo appInfo) {
+            this.user = user;
+            this.appInfo = appInfo;
+        }
+
+        public Message writeMessage() {
             throw new NotImplementedException();
         }
     }

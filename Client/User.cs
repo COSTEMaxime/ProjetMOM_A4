@@ -5,14 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Client {
-    class User {
+    class User : GlobalInformation {
         
         public User() {
-            username = "";
-            password = "";
+            Username = "";
+            Password = "";
+            Token = "";
         }
 
-        public string username { get; set; }
-        public string password { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Token { get; set; }
     }
 }

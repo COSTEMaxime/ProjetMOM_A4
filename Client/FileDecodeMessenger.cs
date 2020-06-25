@@ -7,7 +7,16 @@ using System.Threading.Tasks;
 
 namespace Client {
     class FileDecodeMessenger : IMessenger {
-        public Message writeMessage(ApplicationInfo info, object[] data) {
+
+        User user;
+        ApplicationInfo appInfo;
+
+        public FileDecodeMessenger(User user, ApplicationInfo appInfo) {
+            this.user = user;
+            this.appInfo = appInfo;
+        }
+
+        public Message writeMessage() {
             throw new NotImplementedException();
         }
     }

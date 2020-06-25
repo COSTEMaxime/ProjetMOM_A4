@@ -7,8 +7,28 @@ using System.Threading.Tasks;
 
 namespace Client {
     class LoginMessenger : IMessenger {
-        public Message writeMessage(ApplicationInfo info, object[] data) {
-            throw new NotImplementedException();
+
+        User user;
+        ApplicationInfo appInfo;
+
+        public LoginMessenger(User user, ApplicationInfo appInfo) {
+            this.user = user;
+            this.appInfo = appInfo;
+        }
+
+        public Message writeMessage() {
+
+            Message msg = new Message();
+
+            msg.appToken = appInfo.Token;
+            msg.appVersion = appInfo.Version;
+            msg.operationName = "serviceLogin";
+            msg.operationVersion = "";
+            msg.operationStatus = false;
+            msg.userToken = user.Token;
+            msg.info = "";
+
+            return msg;
         }
     }
 }

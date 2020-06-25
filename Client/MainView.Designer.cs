@@ -66,6 +66,7 @@
             this.logoutButton.TabIndex = 6;
             this.logoutButton.Text = "Logout";
             this.logoutButton.UseVisualStyleBackColor = true;
+            this.logoutButton.Click += new System.EventHandler(this.logoutButton_Click);
             // 
             // registerButton
             // 
@@ -75,6 +76,7 @@
             this.registerButton.TabIndex = 5;
             this.registerButton.Text = "Register";
             this.registerButton.UseVisualStyleBackColor = true;
+            this.registerButton.Click += new System.EventHandler(this.registerButton_Click);
             // 
             // loginButton
             // 
@@ -144,6 +146,7 @@
             this.decryptionButton.TabIndex = 1;
             this.decryptionButton.Text = "Decrypt";
             this.decryptionButton.UseVisualStyleBackColor = true;
+            this.decryptionButton.Click += new System.EventHandler(this.decryptionButton_Click);
             // 
             // systemFilesTreeView
             // 

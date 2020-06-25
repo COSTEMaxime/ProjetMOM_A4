@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Client {
     class LogoutMessenger : IMessenger {
-        public Message writeMessage(ApplicationInfo info, object[] data) {
+        public Message writeMessage() {
             throw new NotImplementedException();
         }
     }

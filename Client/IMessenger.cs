@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 
 namespace Client {
     interface IMessenger {
-        Message writeMessage(ApplicationInfo info, object[] data);
+        Message writeMessage();
     }
 }

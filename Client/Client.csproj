@@ -49,15 +49,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationInfo.cs" />
+    <Compile Include="FileDecodeMessenger.cs" />
+    <Compile Include="GlobalInformation.cs" />
+    <Compile Include="LogoutMessenger.cs" />
     <Compile Include="Connected Services\MiddlewareService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Controller.cs" />
     <Compile Include="DecodeFile.cs" />
     <Compile Include="IAction.cs" />
+    <Compile Include="IMessenger.cs" />
     <Compile Include="Login.cs" />
+    <Compile Include="LoginMessenger.cs" />
     <Compile Include="Logout.cs" />
     <Compile Include="MainView.cs">
       <SubType>Form</SubType>
@@ -65,10 +69,11 @@
     <Compile Include="MainView.Designer.cs">
       <DependentUpon>MainView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Postman.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Register.cs" />
-    <Compile Include="SecurityInfo.cs" />
+    <Compile Include="RegisterMessenger.cs" />
     <Compile Include="User.cs" />
     <EmbeddedResource Include="MainView.resx">
       <DependentUpon>MainView.cs</DependentUpon>
