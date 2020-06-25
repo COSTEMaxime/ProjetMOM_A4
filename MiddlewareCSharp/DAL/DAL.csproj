@@ -52,6 +52,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAO.cs" />
+    <Compile Include="GroupConfiguration.cs" />
+    <Compile Include="GroupEntity.cs" />
     <Compile Include="Migrations\202006242134036_InitialMigration.cs" />
     <Compile Include="Migrations\202006242134036_InitialMigration.designer.cs">
       <DependentUpon>202006242134036_InitialMigration.cs</DependentUpon>
@@ -59,6 +61,14 @@
     <Compile Include="Migrations\202006251659038_UpdateTableNames.cs" />
     <Compile Include="Migrations\202006251659038_UpdateTableNames.designer.cs">
       <DependentUpon>202006251659038_UpdateTableNames.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006252108522_AddedUserGroupMapping.cs" />
+    <Compile Include="Migrations\202006252108522_AddedUserGroupMapping.designer.cs">
+      <DependentUpon>202006252108522_AddedUserGroupMapping.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202006252124294_AddedUserGroupMapping1.cs" />
+    <Compile Include="Migrations\202006252124294_AddedUserGroupMapping1.designer.cs">
+      <DependentUpon>202006252124294_AddedUserGroupMapping1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MiddlewareDbContext.cs" />
@@ -69,8 +79,8 @@
     <Compile Include="UserEntity.cs" />
     <Compile Include="UserGroupConfiguration.cs" />
     <Compile Include="UserGroupEntity.cs" />
-    <Compile Include="UserGroupServiceConfiguration.cs" />
-    <Compile Include="UserGroupServiceEntity.cs" />
+    <Compile Include="GroupServiceConfiguration.cs" />
+    <Compile Include="GroupServiceEntity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -82,6 +92,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006251659038_UpdateTableNames.resx">
       <DependentUpon>202006251659038_UpdateTableNames.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006252108522_AddedUserGroupMapping.resx">
+      <DependentUpon>202006252108522_AddedUserGroupMapping.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202006252124294_AddedUserGroupMapping1.resx">
+      <DependentUpon>202006252124294_AddedUserGroupMapping1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

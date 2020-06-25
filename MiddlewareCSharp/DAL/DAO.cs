@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Security;
 using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,18 +34,30 @@ namespace DAL
             return dbContext.Users.Where(u => u.Login == login).FirstOrDefault();
         }
 
-        public List<UserGroupEntity> GetGroupsFromListStr(List<string> groups)
+        public List<GroupEntity> GetGroupsFromListStr(List<string> groups)
         {
-            List<UserGroupEntity> userGroups = new List<UserGroupEntity>();
+            List<GroupEntity> userGroups = new List<GroupEntity>();
 
-            foreach (string group in groups)
+            foreach (string groupName_ in groups)
             {
-                UserGroupEntity userGroup = dbContext.UserGroups.Where(g => g.UserGroupName == group).FirstOrDefault();
+                GroupEntity group = dbContext.Groups.Where(g => g.GroupName == groupName_).FirstOrDefault();
 
-                if (userGroup != null) { userGroups.Add(userGroup); }
+                if (group != null) { userGroups.Add(group); }
             }
 
             return userGroups;
+        }
+
+        public bool AddUserToGroups(UserEntity user, List<GroupEntity> groups)
+        {
+            bool success = true;
+            foreach(GroupEntity group in groups)
+            {
+                dbContext.UserGroups.AddOrUpdate(new UserGroupEntity() { UserID = user.ID, GroupID = group.ID });
+                if (!SaveChanges()) { success = false; }
+            }
+
+            return success;
         }
 
         public bool AddUser(UserEntity newUser)
@@ -66,6 +79,11 @@ namespace DAL
             }
 
             return true;
+        }
+
+        public ICollection<GroupServiceEntity> GetServicesFromGroup(GroupEntity group)
+        {
+            return dbContext.UserGroupServices.Where(u => u.GroupID == group.ID).ToList();
         }
     }
 }

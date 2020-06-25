@@ -15,18 +15,20 @@ namespace DAL
         }
 
         public DbSet<ServiceEntity> Services { get; set; }
+        public DbSet<GroupEntity> Groups { get; set; }
         public DbSet<UserGroupEntity> UserGroups { get; set; }
         public DbSet<UserEntity> Users { get; set; }
-        public DbSet<UserGroupServiceEntity> UserGroupServices { get; set; }
+        public DbSet<GroupServiceEntity> UserGroupServices { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
-            modelBuilder.Configurations.Add(new UserGroupConfiguration());
             modelBuilder.Configurations.Add(new UserConfiguration());
+            modelBuilder.Configurations.Add(new GroupConfiguration());
+            modelBuilder.Configurations.Add(new UserGroupConfiguration());
             modelBuilder.Configurations.Add(new ServiceConfiguration());
-            modelBuilder.Configurations.Add(new UserGroupServiceConfiguration());
+            modelBuilder.Configurations.Add(new GroupServiceConfiguration());
         }
     }
 }

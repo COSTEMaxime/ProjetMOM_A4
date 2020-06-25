@@ -27,6 +27,7 @@ namespace MiddlewareWCF
                 byte[] key = Guid.NewGuid().ToByteArray();
                 Token = Convert.ToBase64String(time.Concat(key).ToArray());
 
+                user.LastConnexion = DateTime.Now;
                 user.Token = Token;
                 return DAO.GetInstance().SaveChanges();
             }

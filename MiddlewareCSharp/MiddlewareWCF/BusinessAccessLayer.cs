@@ -86,8 +86,8 @@ namespace MiddlewareWCF
             foreach(UserGroupEntity userGroup in userGroups)
             {
                 // get permission for each this user group
-                ICollection<UserGroupServiceEntity> availableServices = userGroup.Services;
-                foreach(UserGroupServiceEntity availableService in availableServices)
+                ICollection<GroupServiceEntity> availableServices = DAO.GetInstance().GetServicesFromGroup(userGroup.Group);
+                foreach(GroupServiceEntity availableService in availableServices)
                 {
                     if (availableService.Service.ServiceName == operatioName)
                     {
