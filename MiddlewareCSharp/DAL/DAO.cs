@@ -12,7 +12,7 @@ namespace DAL
     public class DAO
     {
         private static DAO instance = null;
-        private MiddlewareDbContext dbContext;
+        private readonly MiddlewareDbContext dbContext;
 
         private DAO()
         {
