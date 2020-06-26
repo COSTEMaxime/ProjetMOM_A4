@@ -23,7 +23,7 @@ namespace MiddlewareWCF
         {
             get
             {
-                return MinKey * (int)Math.Pow(alphabet.Length, 4);
+                return MinKey + (int)Math.Pow(alphabet.Length, 4);
             }
         }
 

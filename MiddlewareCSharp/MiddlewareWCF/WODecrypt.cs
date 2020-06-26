@@ -34,7 +34,7 @@ namespace MiddlewareWCF
             Dictionary<string, string> documents;
             try
             {
-                documents = (Dictionary<string, string>)message.data[0];
+                documents = (Dictionary<string, string>)message.data[1];
             }
             catch (Exception)
             {
@@ -65,19 +65,35 @@ namespace MiddlewareWCF
             {
                 string key = BLDecrypt.GetKey(keyCount);
 
-                Parallel.ForEach(decryptors, new ParallelOptions { MaxDegreeOfParallelism = WODecrypt.CPuCoreCount }, blDecrypt =>
+                //Parallel.ForEach(decryptors, new ParallelOptions { MaxDegreeOfParallelism = WODecrypt.CPuCoreCount }, blDecrypt =>
+                //{
+                //    string documentDecypher = blDecrypt.DecypherDocument(key);
+
+                //    BLJEEMessage bLJEEMessage = new BLJEEMessage(WODecrypt.URl, WODecrypt.ACTION);
+                //    Message payload = new Message
+                //    {
+                //        appToken = "middlewareCSharp",
+                //        data = new object[] { blDecrypt.DocumentName, key, guuid, documentDecypher }
+                //    };
+
+                //    bLJEEMessage.PrepareAndSendMessage(message);
+                //});
+
+                foreach (var decryptor in decryptors)
                 {
-                    string documentDecypher = blDecrypt.DecypherDocument(key);
+                    string documentDecypher = decryptor.DecypherDocument(key);
 
                     BLJEEMessage bLJEEMessage = new BLJEEMessage(WODecrypt.URl, WODecrypt.ACTION);
                     Message payload = new Message
                     {
                         appToken = "middlewareCSharp",
-                        data = new object[] { blDecrypt.DocumentName, key, guuid, documentDecypher }
+                        data = new object[] { decryptor.DocumentName, key, guuid, documentDecypher }
                     };
 
-                    bLJEEMessage.PrepareAndSendMessage(message);
-                });
+                    bLJEEMessage.PrepareAndSendMessage(payload);
+                };
+
+                keyCount++;
             }
 
             while (!secretFound)

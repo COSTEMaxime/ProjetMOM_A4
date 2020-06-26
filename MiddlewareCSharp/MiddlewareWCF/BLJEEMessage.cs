@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization.Formatters.Soap;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace MiddlewareWCF
 {
@@ -27,7 +29,7 @@ namespace MiddlewareWCF
 
         internal void PrepareAndSendMessage(Message message, AsyncCallback callback = null)
         {
-            CreateWebRequest();
+            CreateWebRequest();;
             CreateSoapEnvelope(Serialize(message));
             InsertSoapEnvelopeIntoWebRequest();
             WebRequest.BeginGetResponse(callback, null);
@@ -40,30 +42,33 @@ namespace MiddlewareWCF
             WebRequest.ContentType = "text/xml;charset=\"utf-8\"";
             WebRequest.Accept = "text/xml";
             WebRequest.Method = "POST";
+            WebRequest.Proxy = null;
         }
 
-        private void CreateSoapEnvelope(string deserializedMessage)
+        private void CreateSoapEnvelope(string xml)
         {
             soapEnvelopeXml = new XmlDocument();
-            soapEnvelopeXml.LoadXml(
-                @"<?xml version=""1.0"" encoding=""UTF-8""?><S:Envelope xmlns:S=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:SOAP-ENV=""http://schemas.xmlsoap.org/soap/envelope/"">
-                <SOAP-ENV:Header />
-                    <S:Body xmlns:ns2=""http://facade.messagemgmt.checker.com/"">
-                        <ns2:checkOperation>
-                            <message>" + deserializedMessage + @"</message>
-                        </ns2:checkOperation>
-                    </S:Body>
-                </S:Envelope>");
+            soapEnvelopeXml.LoadXml(xml);
         }
 
-        private string Serialize(Message message)
+
+        private string Serialize(object object_)
         {
-            return new JavaScriptSerializer().Serialize(message);
+            using (MemoryStream stream = new MemoryStream())
+            {
+                SoapFormatter formatter = new SoapFormatter();
+                formatter.Serialize(stream, object_);
+                return Encoding.ASCII.GetString(stream.ToArray());
+            }
         }
 
-        public T Deserialize<T>(string json)
+        public T Deserialize<T>(string xmlString)
         {
-            return new JavaScriptSerializer().Deserialize<T>(json);
+            using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(xmlString)))
+            {
+                SoapFormatter formatter = new SoapFormatter();
+                return (T)formatter.Deserialize(stream);
+            }
         }
 
         private void InsertSoapEnvelopeIntoWebRequest()

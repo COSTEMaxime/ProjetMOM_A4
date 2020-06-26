@@ -3,8 +3,10 @@ using System.Collections.Generic;
 
 namespace ContractWCF
 {
+    [Serializable]
     [System.Runtime.Serialization.DataContract]
     [System.Runtime.Serialization.KnownType(typeof(List<string>))]
+    [System.Runtime.Serialization.KnownType(typeof(Dictionary<string, string>))]
     public struct Message
     {
         [System.Runtime.Serialization.DataMember]
