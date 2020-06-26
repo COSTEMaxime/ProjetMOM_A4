@@ -5,7 +5,9 @@
  */
 package com.checker.messagemgmt.logic.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -41,5 +43,24 @@ public class DAO {
         frequencyMap.put('a', 79);
         frequencyMap.put('s', 76);
         return frequencyMap;
+    }
+    
+    public boolean isInDictionary() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public List<String> getDictionary() {
+        List<String> dict = new ArrayList<>();
+        dict.add("test");
+        dict.add("est");
+        dict.add("ceci");
+        dict.add("un");
+        dict.add("a");
+        dict.add("pour");
+        dict.add("de");
+        dict.add("le");
+        dict.add("la");
+        dict.add("les");
+        return dict;
     }
 }

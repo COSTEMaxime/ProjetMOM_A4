@@ -6,6 +6,7 @@
 package com.checker.messagemgmt.logic.checkers;
 
 import com.checker.messagemgmt.logic.checkers.character.CharacterChecker;
+import com.checker.messagemgmt.logic.checkers.word.ListWordChecker;
 
 /**
  *
@@ -15,7 +16,9 @@ public class FrenchChecker implements IChecker{
 
     @Override
     public boolean check(String txt) {
-        new CharacterChecker().check(txt);
+        if(new CharacterChecker().check(txt)) {
+            new ListWordChecker().check(txt);
+        }
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
