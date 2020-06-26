@@ -61,6 +61,9 @@ public class DAO {
         dict.add("le");
         dict.add("la");
         dict.add("les");
+        dict.add("information");
+        dict.add("secrète");
+        dict.add("voici");
         return dict;
     }
 }

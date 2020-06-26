@@ -40,28 +40,54 @@ public class MessageProcessor implements MessageListener {
         MSG msg;
         JAXBContext jaxbContext;
         try {
-            String messsageToCheck = message.getBody(String.class);
+            String XMLmesssage = message.getBody(String.class);
             jaxbContext = JAXBContext.newInstance(MSG.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            StringReader reader = new StringReader(messsageToCheck);
+            StringReader reader = new StringReader(XMLmesssage);
             msg = (MSG) jaxbUnmarshaller.unmarshal(reader);
             System.out.println(msg.getInfo());
-            checkMessage((String) msg.getData()[0]);
+            String messageToCheck = (String) msg.getData()[0];
+            if(checkMessage(messageToCheck)) {
+                String secret = findSecret(messageToCheck);
+                if(secret != "") {
+                    String key = (String) msg.getData()[1];
+                    sendResponse(key ,messageToCheck, secret);
+                } else {
+                    //TODO log file
+                    System.out.println("File was in French but no secret was found");
+                }
+            }
         } catch (JAXBException | JMSException ex) {
             Logger.getLogger(MessageProcessor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     private boolean checkMessage(String txt) {
-        new FrenchChecker().check(txt);
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new FrenchChecker().check(txt);
     }
     
+    
     private String findSecret(String txt) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        /**
+         * We only know that the secret is preceeded by "l’information secrète"
+         * So we have to make a guess as to where it stops.
+         * My guess is that the identifier and the secret are on the same line.
+         */
+        String[] lines = txt.split("\r");
+        for(String line : lines) {
+            if(line.contains("l’information secrète")) {
+                return line;
+            }
+        }
+        return "";
     }
     
     private double calculateConfidence(String sample, String wholeText) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    private void sendResponse(String key , String messageToCheck, String secret) {
+        System.out.println("Secret found, will send the secret : "+secret);
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

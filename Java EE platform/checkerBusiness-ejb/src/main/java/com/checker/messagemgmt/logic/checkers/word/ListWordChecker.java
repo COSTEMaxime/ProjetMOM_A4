@@ -52,10 +52,11 @@ public class ListWordChecker implements IWordChecker {
         for (String word : words) {
             boolean isValid = checkWord(word);
             if (abortCheck(word, isValid)) { return false; }
+            if(successCheck()) { return true; }
         }
         //System.out.println("done: "+totalChars+" chars, "+invalidChars+" invalid chars ("+(float)invalidChars/totalChars+"%), "+invalidWords+" invalid words ("+(float)invalidWords/words.length+"%), "+matchedWords+" matched");
         //System.out.println("Could not conclude on file validity.");
-        return false;
+        return true;
     }
 
     private boolean successCheck() {
