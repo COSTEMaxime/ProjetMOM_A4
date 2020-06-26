@@ -1,7 +1,9 @@
 ﻿using ContractWCF;
+using DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -49,6 +51,10 @@ namespace MiddlewareWCF
                     operationStatus = false
                 };
             }
+
+            BLEmail blEmail = new BLEmail();
+            MailMessage mail = blEmail.CreateMailMessage("Welcome !", $"Thanks for creating an account {login}");
+            blEmail.SendEmail(email, mail);
 
             return new Message
             {
