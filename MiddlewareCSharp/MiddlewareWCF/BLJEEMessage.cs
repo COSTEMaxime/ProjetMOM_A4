@@ -13,10 +13,10 @@ namespace MiddlewareWCF
 {
     class BLJEEMessage
     {
-        private string url;
-        private string action;
+        private readonly string url;
+        private readonly string action;
 
-        private HttpWebRequest webRequest;
+        public HttpWebRequest WebRequest { get; private set; }
         private XmlDocument soapEnvelopeXml;
 
         internal BLJEEMessage(string url, string action)
@@ -28,18 +28,18 @@ namespace MiddlewareWCF
         internal void PrepareAndSendMessage(Message message, AsyncCallback callback = null)
         {
             CreateWebRequest();
-            CreateSoapEnvelope(Deserialize(message));
+            CreateSoapEnvelope(Serialize(message));
             InsertSoapEnvelopeIntoWebRequest();
-            webRequest.BeginGetResponse(callback, null);
+            WebRequest.BeginGetResponse(callback, null);
         }
 
         private void CreateWebRequest()
         {
-            webRequest = (HttpWebRequest)WebRequest.Create(url);
-            webRequest.Headers.Add("SOAPAction", action);
-            webRequest.ContentType = "text/xml;charset=\"utf-8\"";
-            webRequest.Accept = "text/xml";
-            webRequest.Method = "POST";
+            WebRequest = (HttpWebRequest)System.Net.WebRequest.Create(url);
+            WebRequest.Headers.Add("SOAPAction", action);
+            WebRequest.ContentType = "text/xml;charset=\"utf-8\"";
+            WebRequest.Accept = "text/xml";
+            WebRequest.Method = "POST";
         }
 
         private void CreateSoapEnvelope(string deserializedMessage)
@@ -56,14 +56,19 @@ namespace MiddlewareWCF
                 </S:Envelope>");
         }
 
-        private string Deserialize(Message message)
+        private string Serialize(Message message)
         {
             return new JavaScriptSerializer().Serialize(message);
         }
 
+        public T Deserialize<T>(string json)
+        {
+            return new JavaScriptSerializer().Deserialize<T>(json);
+        }
+
         private void InsertSoapEnvelopeIntoWebRequest()
         {
-            using (Stream stream = webRequest.GetRequestStream())
+            using (Stream stream = WebRequest.GetRequestStream())
             {
                 soapEnvelopeXml.Save(stream);
             }

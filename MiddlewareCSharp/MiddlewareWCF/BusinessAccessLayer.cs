@@ -15,7 +15,9 @@ namespace MiddlewareWCF
             // TODO: add logs
 
             // can't authenticate user if he is creating an account / login
-            if (message.operationName != "serviceRegister" && message.operationName != "serviceLogin")
+            if (message.operationName != "serviceRegister"
+                && message.operationName != "serviceLogin"
+                && message.operationName != "serviceJEEResponse")
             {
                 var authorisationStatus = BusinessAccessLayer.CheckAuthorisation(message);
                 if (!authorisationStatus.Item1)
@@ -40,6 +42,9 @@ namespace MiddlewareWCF
                     break;
                 case "serviceDecrypt":
                     workflowOrchestrator = new WODecrypt();
+                    break;
+                case "serviceJEEResponse":
+                    workflowOrchestrator = new WOJEEResponse();
                     break;
                 default:
                     throw new Exception("WorkflowOrchestrator \"" + message.operationName +"\" does not exists");

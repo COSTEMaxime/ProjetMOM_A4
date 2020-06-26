@@ -27,7 +27,7 @@ namespace MiddlewareWCF
         {
             bool isAppTokenValid;
 
-            if (appToken == "client")
+            if (appToken == "client" || appToken == "java")
             {
                 isAppTokenValid = true;
             }
@@ -51,6 +51,9 @@ namespace MiddlewareWCF
                     service = new ServiceLogin();
                     break;
                 case "serviceDecrypt":
+                    service = new ServiceDecrypt();
+                    break;
+                case "serviceJEEResponse":
                     service = new ServiceDecrypt();
                     break;
                 default:

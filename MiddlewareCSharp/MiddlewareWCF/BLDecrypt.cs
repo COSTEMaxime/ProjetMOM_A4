@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace MiddlewareWCF
 {
@@ -13,43 +14,47 @@ namespace MiddlewareWCF
     {
         public string Secret { get; private set; }
         public string Key { get; private set; }
+        public string Document { get; private set; }
         public string DocumentName { get; private set; }
-        public IDictionary<string, string> Documents { get; private set; }
 
-        private static char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
-        private static int alphabetLengthPow2 = alphabet.Length * alphabet.Length;
-        private static int alphabetLengthPow3 = alphabetLengthPow2 * alphabet.Length;
-        private static int alphabetLengthPow4 = alphabetLengthPow3 * alphabet.Length;
-        private int count = -1;
+        private static readonly char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
 
-        private int CPuCoreCount
+        public static int MaxKey
         {
             get
             {
-                return Environment.ProcessorCount;
+                return MinKey * (int)Math.Pow(alphabet.Length, 4);
             }
         }
 
-        public string DecypherDocument(string documentName, string key)
+        public static int MinKey
+        {
+            get
+            {
+                // skip keys of length 3,2 and 1
+                return (int)Math.Pow(alphabet.Length, 3) + (int)Math.Pow(alphabet.Length, 2) + (int)Math.Pow(alphabet.Length, 1);
+            }
+        }
+
+        public BLDecrypt(string documentName, string document)
+        {
+            Document = document;
+            DocumentName = documentName;
+        }
+
+        public string DecypherDocument(string key)
         {
             StringBuilder result = new StringBuilder();
-            string text = Documents[documentName];
 
-            for (int c = 0; c < text.Length; c++)
-                result.Append((char)((uint)text[c] ^ (uint)key[c % key.Length]));
+            for (int c = 0; c < Document.Length; c++)
+                result.Append((char)((uint)Document[c] ^ (uint)key[c % key.Length]));
 
             return result.ToString();
         }
 
-        string GetNextKey()
+        public static string GetKey(int i)
         {
-            count++;
-            return new string(new char[] {
-                alphabet[count / BLDecrypt.alphabetLengthPow4],
-                alphabet[count / BLDecrypt.alphabetLengthPow3],
-                alphabet[count / BLDecrypt.alphabetLengthPow2],
-                alphabet[count % 26]
-            });
+            return i < 0 ? "" : GetKey((i / alphabet.Length) - 1) + alphabet[i % 26];
         }
     }
 }
