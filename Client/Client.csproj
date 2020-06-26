@@ -49,15 +49,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationInfo.cs" />
-    <Compile Include="Controller.cs" />
-    <Compile Include="FileDecodeMessenger.cs" />
-    <Compile Include="IInputValidator.cs" />
-    <Compile Include="LogoutMessenger.cs" />
     <Compile Include="Connected Services\MiddlewareService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Controller.cs" />
+    <Compile Include="FileDecodeMessenger.cs" />
+    <Compile Include="IInputValidator.cs" />
+    <Compile Include="LogoutMessenger.cs" />
     <Compile Include="IAction.cs" />
     <Compile Include="IMessenger.cs" />
     <Compile Include="LoginMessenger.cs" />

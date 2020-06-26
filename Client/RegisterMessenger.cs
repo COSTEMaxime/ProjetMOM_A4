@@ -24,7 +24,7 @@ namespace Client {
             data[0] = user.Username;
             data[1] = user.Password;
             data[2] = user.Username + "@default.com";
-            data[3] = user.groups;
+            data[3] = (object) user.groups;
 
             msg.appToken = appInfo.Token;
             msg.appVersion = appInfo.Version;

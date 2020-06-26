@@ -49,7 +49,7 @@ namespace Client {
 
         public void register() {
 
-            view.appendConsole("[DEBUG] Sending register request [username:" + userInfo.Username + ", password:" + userInfo.Password + "]\n");
+            view.appendConsole("[DEBUG] Sending register request [username:" + userInfo.Username + ", password:" + userInfo.Password + ", group1:"  + userInfo.groups[0] + "]\n");
 
             action = new UserAction(new RegisterMessenger(userInfo, appInfo));
             responseValidator(action.carryOut());

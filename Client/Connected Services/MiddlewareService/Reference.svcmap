@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="391942cc-3543-4ae4-884a-6d8327f30cb1" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="a46849ee-cb89-4f9e-845e-92801c44fc22" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,11 +22,11 @@
     <MetadataSource Address="http://localhost:8011/Serveur/Mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="4e888775-30c7-4739-9ba8-691f4c3b43bb" SourceId="1" SourceUrl="http://localhost:8011/Serveur/Mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="7245039e-d50d-434e-aeea-ccfcdd7e0633" SourceId="1" SourceUrl="http://localhost:8011/Serveur/Mex" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="6c432c3e-9606-4e10-a3f7-99e0749ba99e" SourceId="1" SourceUrl="http://localhost:8011/Serveur/Mex" />
-    <MetadataFile FileName="ContractWCF.xsd" MetadataType="Schema" ID="679781d9-36cb-4103-a46a-221304bc10da" SourceId="1" SourceUrl="http://localhost:8011/Serveur/Mex" />
-    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="9cdf41db-8c17-47a5-93ee-42b7e98b03ec" SourceId="1" SourceUrl="http://localhost:8011/Serveur/Mex" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="fb56267d-bc16-424e-a0bb-df7e381ef051" SourceId="1" SourceUrl="http://localhost:8011/Serveur/Mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="6090b66d-c288-4129-901b-943fc6bc5ce9" SourceId="1" SourceUrl="http://localhost:8011/Serveur/Mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="de5ea78b-9ef4-4e27-b6fa-c61c5a5c0083" SourceId="1" SourceUrl="http://localhost:8011/Serveur/Mex" />
+    <MetadataFile FileName="ContractWCF.xsd" MetadataType="Schema" ID="d0fef9b2-4db1-4e95-bcc9-370e10197b47" SourceId="1" SourceUrl="http://localhost:8011/Serveur/Mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="18511ec3-d8ff-42a2-ba45-2372ee278bf5" SourceId="1" SourceUrl="http://localhost:8011/Serveur/Mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
