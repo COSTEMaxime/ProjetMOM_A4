@@ -50,6 +50,9 @@ namespace MiddlewareWCF
                 case "serviceLogin":
                     service = new ServiceLogin();
                     break;
+                case "serviceLogout":
+                    service = new ServiceLogout();
+                    break;
                 case "serviceDecrypt":
                     service = new ServiceDecrypt();
                     break;

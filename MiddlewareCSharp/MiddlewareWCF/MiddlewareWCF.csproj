@@ -58,10 +58,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceJEEResponse.cs" />
     <Compile Include="ServiceLogin.cs" />
+    <Compile Include="ServiceLogout.cs" />
     <Compile Include="ServiceRegister.cs" />
     <Compile Include="WODecrypt.cs" />
     <Compile Include="WOJEEResponse.cs" />
     <Compile Include="WOLogin.cs" />
+    <Compile Include="WOLogout.cs" />
     <Compile Include="WORegister.cs" />
   </ItemGroup>
   <ItemGroup>

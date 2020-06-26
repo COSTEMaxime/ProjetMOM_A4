@@ -40,6 +40,9 @@ namespace MiddlewareWCF
                 case "serviceLogin":
                     workflowOrchestrator = new WOLogin();
                     break;
+                case "serviceLogout":
+                    workflowOrchestrator = new WOLogout();
+                    break;
                 case "serviceDecrypt":
                     workflowOrchestrator = new WODecrypt();
                     break;
