@@ -25,7 +25,8 @@ public class CharacterChecker implements ICharacterChecker {
 
     @Override
     public boolean check(String txt) {
-        return frequencyPretest(txt);
+        String sample = txt.substring(0,300);
+        return frequencyPretest(sample);
     }
 
     private HashMap<Character, Integer> getFrequencies() {
