@@ -16,8 +16,8 @@ namespace Client {
 
         public Message carryOut() {
             MiddlewareService.Message msg = messenger.writeMessage();
-
             Postman postman = new Postman();
+            
             return postman.sendMessage(msg);
         }
     }

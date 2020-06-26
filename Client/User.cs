@@ -11,15 +11,19 @@ namespace Client {
         public string Password { get; set; }
         public string Token { get; set; }
         public string Email { get; set; }
-        public List<string> groups { get; set; }
+        // public List<string> groups { get; set; }
+        public string[] groups { get; set; }
 
         public User() {
             Username = "";
             Password = "";
             Token = "";
             Email = "";
-            groups = new List<string>();
-            groups.Add("USER");
+            groups = new string[1];
+            groups[0] = "USER";
+
+            // groups = new List<string>();
+            // groups.Add("USER");
         }
     }
 }

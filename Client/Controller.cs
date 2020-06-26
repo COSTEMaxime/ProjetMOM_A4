@@ -24,40 +24,40 @@ namespace Client {
             InitView();
         }
 
+        private void notifyView(MiddlewareService.Message response) {
+            if(response.operationStatus != true) {
+                view.appendConsole("[ERROR] ");
+            }
+            view.appendConsole(response.info + "\n");
+        }
+
         private void InitView() {
             view = new MainView(userInfo, appInfo, this);
             Application.Run(view);
         }
 
-        private void responseValidator(Client.MiddlewareService.Message response) {
-            if(response.operationStatus == false)
-                view.appendConsole("[ERROR] ");
-
-            view.appendConsole(response.info + "\n");
-        }
-
-        public void login() {
+        public async Task login() {
+            view.appendConsole("Logging in ...\n");
             action = new UserAction(new LoginMessenger(userInfo, appInfo));
-            responseValidator(action.carryOut());
+            notifyView(await Task.Run(() => action.carryOut()));
         }
 
-        public void logout() {
+        public async Task logout() {
             // action = new UserAction(new LogoutMessenger(userInfo, appInfo));
             // action.carryOut();
             throw new NotImplementedException();
         }
 
-        public void register() {
-
-            view.appendConsole("[DEBUG] Sending register request [username:" + userInfo.Username + ", password:" + userInfo.Password + ", group1:"  + userInfo.groups[0] + "]\n");
-
+        public async Task register() {
+            view.appendConsole("Registering ...\n");
             action = new UserAction(new RegisterMessenger(userInfo, appInfo));
-            responseValidator(action.carryOut());
+            notifyView(await Task.Run(() => action.carryOut()));
         }
 
-        public void decodeFile() {
+        public async Task decodeFile() {
+            view.appendConsole("Decoding file ...\n");
             action = new UserAction(new FileDecodeMessenger(userInfo, appInfo));
-            responseValidator(action.carryOut());
+            notifyView(await Task.Run(() => action.carryOut()));
         }
     }
 }
