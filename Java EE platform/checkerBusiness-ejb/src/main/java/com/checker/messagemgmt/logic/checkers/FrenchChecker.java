@@ -17,9 +17,9 @@ public class FrenchChecker implements IChecker{
     @Override
     public boolean check(String txt) {
         if(new CharacterChecker().check(txt)) {
-            new ListWordChecker().check(txt);
+            return new ListWordChecker().check(txt);
         }
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return false;
     }
     
 }

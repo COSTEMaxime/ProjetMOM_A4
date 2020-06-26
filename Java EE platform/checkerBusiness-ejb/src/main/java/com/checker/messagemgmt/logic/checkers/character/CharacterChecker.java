@@ -25,7 +25,7 @@ public class CharacterChecker implements ICharacterChecker {
 
     @Override
     public boolean check(String txt) {
-        String sample = txt.substring(0,300);
+        String sample = txt.length() > 300 ? txt.substring(0,300):txt;
         return frequencyPretest(sample);
     }
 

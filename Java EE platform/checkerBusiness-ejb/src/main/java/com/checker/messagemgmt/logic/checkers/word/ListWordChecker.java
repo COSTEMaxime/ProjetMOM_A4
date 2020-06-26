@@ -44,7 +44,7 @@ public class ListWordChecker implements IWordChecker {
     }
 
     public boolean testFileCoherence(String decodedMessage, String[] dictionaryWords) {
-        String sample = decodedMessage.substring(0,300);
+        String sample = decodedMessage.length() > 300 ? decodedMessage.substring(0,300):decodedMessage;
         String[] words = splitWords(sample);
         if (words.length < 6) { //5 words or less in 300 first chars is unlikely
             return false;
