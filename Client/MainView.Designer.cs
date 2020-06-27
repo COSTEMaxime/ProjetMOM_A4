@@ -156,6 +156,7 @@
             this.systemFilesTreeView.Name = "systemFilesTreeView";
             this.systemFilesTreeView.Size = new System.Drawing.Size(215, 233);
             this.systemFilesTreeView.TabIndex = 0;
+            this.systemFilesTreeView.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.systemFilesTreeView_BeforeExpand);
             this.systemFilesTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.systemFilesTreeView_AfterSelect);
             // 
             // consoleGroupBox
@@ -197,6 +198,7 @@
             this.MinimumSize = new System.Drawing.Size(450, 350);
             this.Name = "MainView";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.MainView_Load);
             this.authenticationGroupBox.ResumeLayout(false);
             this.authenticationGroupBox.PerformLayout();
             this.decryptionGroupBox.ResumeLayout(false);

@@ -24,7 +24,7 @@ namespace Client {
             InitView();
         }
 
-        private void notifyView(MiddlewareService.Message response) {
+        private void updateViewConsole(MiddlewareService.Message response) {
             if(response.operationStatus != true) {
                 view.appendConsole("[ERROR] ");
             }
@@ -39,7 +39,7 @@ namespace Client {
         public async Task login() {
             view.appendConsole("Logging in ...\n");
             action = new UserAction(new LoginMessenger(userInfo, appInfo));
-            notifyView(await Task.Run(() => action.carryOut()));
+            updateViewConsole(await Task.Run(() => action.carryOut()));
         }
 
         public async Task logout() {
@@ -51,13 +51,13 @@ namespace Client {
         public async Task register() {
             view.appendConsole("Registering ...\n");
             action = new UserAction(new RegisterMessenger(userInfo, appInfo));
-            notifyView(await Task.Run(() => action.carryOut()));
+            updateViewConsole(await Task.Run(() => action.carryOut()));
         }
 
         public async Task decodeFile() {
             view.appendConsole("Decoding file ...\n");
             action = new UserAction(new FileDecodeMessenger(userInfo, appInfo));
-            notifyView(await Task.Run(() => action.carryOut()));
+            updateViewConsole(await Task.Run(() => action.carryOut()));
         }
     }
 }
