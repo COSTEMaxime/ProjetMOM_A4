@@ -15,68 +15,21 @@ namespace MiddlewareWCF
 {
     class BLJEEMessage
     {
-        private readonly string url;
-        private readonly string action;
+        readonly JavaEEService.CheckerEndpointClient client;
 
-        public HttpWebRequest WebRequest { get; private set; }
-        private XmlDocument soapEnvelopeXml;
-
-        internal BLJEEMessage(string url, string action)
+        internal BLJEEMessage()
         {
-            this.url = url;
-            this.action = action;
+            client = new JavaEEService.CheckerEndpointClient();
         }
 
-        internal void PrepareAndSendMessage(Message message, AsyncCallback callback = null)
+        internal async Task<JavaEEService.checkOperationResponse1> SendMessageAsync(JavaEEService.msg message)
         {
-            CreateWebRequest();;
-            CreateSoapEnvelope(Serialize(message));
-            InsertSoapEnvelopeIntoWebRequest();
-            WebRequest.BeginGetResponse(callback, null);
+            return await client.checkOperationAsync(message);
         }
 
-        private void CreateWebRequest()
+        internal bool SendMessage(JavaEEService.msg message)
         {
-            WebRequest = (HttpWebRequest)System.Net.WebRequest.Create(url);
-            WebRequest.Headers.Add("SOAPAction", action);
-            WebRequest.ContentType = "text/xml;charset=\"utf-8\"";
-            WebRequest.Accept = "text/xml";
-            WebRequest.Method = "POST";
-            WebRequest.Proxy = null;
-        }
-
-        private void CreateSoapEnvelope(string xml)
-        {
-            soapEnvelopeXml = new XmlDocument();
-            soapEnvelopeXml.LoadXml(xml);
-        }
-
-
-        private string Serialize(object object_)
-        {
-            using (MemoryStream stream = new MemoryStream())
-            {
-                SoapFormatter formatter = new SoapFormatter();
-                formatter.Serialize(stream, object_);
-                return Encoding.ASCII.GetString(stream.ToArray());
-            }
-        }
-
-        public T Deserialize<T>(string xmlString)
-        {
-            using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(xmlString)))
-            {
-                SoapFormatter formatter = new SoapFormatter();
-                return (T)formatter.Deserialize(stream);
-            }
-        }
-
-        private void InsertSoapEnvelopeIntoWebRequest()
-        {
-            using (Stream stream = WebRequest.GetRequestStream())
-            {
-                soapEnvelopeXml.Save(stream);
-            }
+            return client.checkOperation(message);
         }
     }
 }

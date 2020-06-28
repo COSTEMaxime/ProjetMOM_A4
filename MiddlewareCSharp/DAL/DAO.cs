@@ -11,8 +11,8 @@ namespace DAL
 {
     public class DAO
     {
-        private static DAO instance = null;
         private readonly MiddlewareDbContext dbContext;
+        private static readonly Lazy<DAO> lazy = new Lazy<DAO>(() => new DAO());
 
         private DAO()
         {
@@ -21,12 +21,7 @@ namespace DAL
 
         public static DAO GetInstance()
         {
-            if (instance == null)
-            {
-                instance = new DAO();
-            }
-
-            return instance;
+            return lazy.Value;
         }
 
         public UserEntity GetUserByLogin(string login)
