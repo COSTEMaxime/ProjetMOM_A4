@@ -5,6 +5,7 @@
  */
 package com.checker.messagemgmt.facade;
 
+import com.checker.messagemgmt.contract.MSG;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -18,5 +19,5 @@ import javax.jws.WebService;
 public interface CheckerServiceEndpointInterface {
     @WebMethod(operationName = "checkOperation")
     @WebResult(name = "checkedMessage")
-    boolean findSecret(@WebParam(name="message")String serializedMsg);
+    boolean findSecret(@WebParam(name="message")MSG message);
 }

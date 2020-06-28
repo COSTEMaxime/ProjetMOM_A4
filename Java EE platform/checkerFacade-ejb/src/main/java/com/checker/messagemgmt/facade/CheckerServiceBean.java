@@ -5,6 +5,7 @@
  */
 package com.checker.messagemgmt.facade;
 
+import com.checker.messagemgmt.contract.MSG;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -32,12 +33,12 @@ public class CheckerServiceBean implements CheckerServiceEndpointInterface {
     private Queue messageQueue;
 
     @Override
-    public boolean findSecret(String serializedMsg) {
-        sendMessage(serializedMsg);
+    public boolean findSecret(MSG message) {
+        sendMessage(message);
         return true;
     }
 
-    private void sendMessage(String serializedMsg) {
-        context.createProducer().send(messageQueue, serializedMsg);
+    private void sendMessage(MSG message) {
+        context.createProducer().send(messageQueue, message);
     }
 }
