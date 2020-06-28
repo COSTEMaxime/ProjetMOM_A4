@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class ServiceEntity
+    public class GroupEntity
     {
         public int ID { get; set; }
-        public string ServiceName { get; set; }
+        public string GroupName { get; set; }
     }
 }
