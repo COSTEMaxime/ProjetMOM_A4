@@ -12,16 +12,25 @@ namespace Client {
         User userInfo;
         ApplicationInfo appInfo;
         MainView view;
+        DAO dao;
 
-        IAction action;
-
-        public Controller(User userInfo, ApplicationInfo appInfo) {
-            this.userInfo = userInfo;
-            this.appInfo = appInfo;
+        public Controller() {
+            this.userInfo = new User();
+            this.appInfo = new ApplicationInfo();
+            this.dao = new DAO();
 
             appInfo.Token = "client";
 
             InitView();
+        }
+
+        private void InitView() {
+            view = new MainView(userInfo, appInfo, this);
+            Application.Run(view);
+        }
+
+        public List<string> loadSubDirectories(string directory) {
+            return dao.getSubDirectoriesAndFiles(directory);
         }
 
         private void updateViewConsole(MiddlewareService.Message response) {
@@ -31,32 +40,26 @@ namespace Client {
             view.appendConsole(response.info + "\n");
         }
 
-        private void InitView() {
-            view = new MainView(userInfo, appInfo, this);
-            Application.Run(view);
-        }
-
-        public async Task login() {
+        public async void login() {
             view.appendConsole("Logging in ...\n");
-            action = new UserAction(new LoginMessenger(userInfo, appInfo));
+            IAction action = new UserAction(new LoginMessenger(userInfo, appInfo));
             updateViewConsole(await Task.Run(() => action.carryOut()));
         }
 
-        public async Task logout() {
-            // action = new UserAction(new LogoutMessenger(userInfo, appInfo));
-            // action.carryOut();
+        public async void logout() {
             throw new NotImplementedException();
         }
 
-        public async Task register() {
+        public async void register() {
             view.appendConsole("Registering ...\n");
-            action = new UserAction(new RegisterMessenger(userInfo, appInfo));
+            IAction action = new UserAction(new RegisterMessenger(userInfo, appInfo));
             updateViewConsole(await Task.Run(() => action.carryOut()));
         }
 
-        public async Task decodeFile() {
-            view.appendConsole("Decoding file ...\n");
-            action = new UserAction(new FileDecodeMessenger(userInfo, appInfo));
+        public async void decodeFiles(string[] files) {
+            view.appendConsole("Decoding file(s) ...\n");
+            string[] contents = dao.getFilesContent(files);
+            IAction action = new UserAction(new FileDecodeMessenger(userInfo, appInfo, contents));
             updateViewConsole(await Task.Run(() => action.carryOut()));
         }
     }

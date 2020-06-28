@@ -55,6 +55,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Controller.cs" />
+    <Compile Include="DAO.cs" />
     <Compile Include="FileDecodeMessenger.cs" />
     <Compile Include="IInputValidator.cs" />
     <Compile Include="LogoutMessenger.cs" />

@@ -10,14 +10,33 @@ namespace Client {
 
         User user;
         ApplicationInfo appInfo;
+        string[] filesContent;
 
-        public FileDecodeMessenger(User user, ApplicationInfo appInfo) {
+        public FileDecodeMessenger(User user, ApplicationInfo appInfo, string[] filesContent) {
             this.user = user;
             this.appInfo = appInfo;
+            this.filesContent = filesContent;
         }
 
         public Message writeMessage() {
-            throw new NotImplementedException();
+
+            Message msg = new Message();
+
+            object[] data = new object[3];
+            data[0] = user.Username;
+            data[1] = user.Token;
+            data[2] = filesContent;
+
+            msg.appToken = appInfo.Token;
+            msg.appVersion = appInfo.Version;
+            msg.operationName = "serviceDecodeFile";
+            msg.operationVersion = "";
+            msg.operationStatus = false;
+            msg.userToken = user.Token;
+            msg.info = "";
+            msg.data = data;
+
+            return msg;
         }
     }
 }

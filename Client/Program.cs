@@ -15,12 +15,8 @@ namespace Client {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // Create Model
-            User userInfo = new User();
-            ApplicationInfo appInfo = new ApplicationInfo();
-
-            // Create Controller (which starts the view)
-            Controller ctrl = new Controller(userInfo, appInfo);
+            // Create Controller (which starts the view and creates the model)
+            Controller ctrl = new Controller();
         }
     }
 }
