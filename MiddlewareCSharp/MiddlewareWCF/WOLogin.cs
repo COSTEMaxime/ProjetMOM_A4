@@ -28,13 +28,13 @@ namespace MiddlewareWCF
             }
 
             BLLogin blLogin = new BLLogin();
-
             if (blLogin.Login(login, password))
             {
                 return new Message
                 {
                     info = "Success (login)",
-                    operationStatus = true
+                    operationStatus = true,
+                    data = new object[] { blLogin.Token }
                 };
             }
             else

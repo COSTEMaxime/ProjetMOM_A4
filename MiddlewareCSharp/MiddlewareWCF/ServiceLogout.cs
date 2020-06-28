@@ -7,14 +7,11 @@ using System.Threading.Tasks;
 
 namespace MiddlewareWCF
 {
-    class ServiceRegister : IService
+    class ServiceLogout : IService
     {
         /*
          * Input Data Layout :
          *      - data[0] : login (string)
-         *      - data[1] : password (string)
-         *      - data[2] : email (string)
-         *      - data[3] : groups (List<string>)
          *
          * Output Data Layout :
          */

@@ -7,14 +7,8 @@ using System.Threading.Tasks;
 
 namespace MiddlewareWCF
 {
-    class ServiceDecrypt : IService
+    class ServiceJEEResponse : IService
     {
-        /*
-         * Input Data Layout :
-         *      - data[0] : login (string)
-         *
-         * Output Data Layout :
-         */
         public Message ExecuteService(Message message)
         {
             return BusinessAccessLayer.Dispatch(message);

@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    class UserGroupServiceConfiguration : EntityTypeConfiguration<UserGroupServiceEntity>
+    class GroupServiceConfiguration : EntityTypeConfiguration<GroupServiceEntity>
     {
-        public UserGroupServiceConfiguration()
+        public GroupServiceConfiguration()
         {
-            this.ToTable("tUserGroupService");
-            this.HasKey(u => u.UserGroupServiceID);
-            this.Property(u => u.UserGroupServiceID)
+            this.ToTable("GroupService");
+            this.HasKey(u => u.ID);
+            this.Property(u => u.ID)
                 .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
 
             this.Property(u => u.ServiceID).IsRequired();
-            this.Property(u => u.UserGroupID).IsRequired();
+            this.Property(u => u.GroupID).IsRequired();
         }
     }
 }

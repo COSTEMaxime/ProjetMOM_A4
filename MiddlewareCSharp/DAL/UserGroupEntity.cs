@@ -8,10 +8,11 @@ namespace DAL
 {
     public class UserGroupEntity
     {
-        public int UserGroupID { get; set; }
-        public string UserGroupName { get; set; }
+        public int ID { get; set; }
+        public int UserID { get; set; }
+        public int GroupID { get; set; }
 
         public virtual UserEntity User { get; set; }
-        public virtual ICollection<UserGroupServiceEntity> Services { get; set; }
+        public virtual GroupEntity Group { get; set; }
     }
 }

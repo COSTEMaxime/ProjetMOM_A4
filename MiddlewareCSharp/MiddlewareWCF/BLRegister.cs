@@ -18,17 +18,19 @@ namespace MiddlewareWCF
         {
             BLPassword blPassword = new BLPassword();
             string passwordHash = blPassword.Hash(password);
-            List<UserGroupEntity> userGroups = DAO.GetInstance().GetGroupsFromListStr(groups);
+
+            // All users are part of the "defaultGroup" so they can have access to services like logout
+            groups.Add("defaultGroup");
+            List<GroupEntity> groupEntities = DAO.GetInstance().GetGroupsFromListStr(groups);
 
             UserEntity newUser = new UserEntity
             {
                 Login = login,
                 Email = email,
                 Password = passwordHash,
-                Groups = userGroups
             };
 
-            return DAO.GetInstance().AddUser(newUser);
+            return DAO.GetInstance().AddUser(newUser) && DAO.GetInstance().AddUserToGroups(newUser, groupEntities);
         }
     }
 }

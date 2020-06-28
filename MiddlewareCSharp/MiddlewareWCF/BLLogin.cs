@@ -9,6 +9,8 @@ namespace MiddlewareWCF
 {
     class BLLogin
     {
+        internal string Token { get; private set; }
+
         internal bool Login(string login, string password)
         {
             UserEntity user = DAO.GetInstance().GetUserByLogin(login);
@@ -19,7 +21,20 @@ namespace MiddlewareWCF
             }
 
             BLPassword blPassword = new BLPassword();
-            return blPassword.VerifyPassword(password, user.Password);
+            if (blPassword.VerifyPassword(password, user.Password))
+            {
+                byte[] time = BitConverter.GetBytes(DateTime.UtcNow.ToBinary());
+                byte[] key = Guid.NewGuid().ToByteArray();
+                Token = Convert.ToBase64String(time.Concat(key).ToArray());
+
+                user.LastConnexion = DateTime.Now;
+                user.Token = Token;
+                return DAO.GetInstance().SaveChanges();
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

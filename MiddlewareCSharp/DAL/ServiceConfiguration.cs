@@ -11,9 +11,9 @@ namespace DAL
     {
         public ServiceConfiguration()
         {
-            this.ToTable("tService");
-            this.HasKey(s => s.ServiceID);
-            this.Property(s => s.ServiceID)
+            this.ToTable("Service");
+            this.HasKey(s => s.ID);
+            this.Property(s => s.ID)
                 .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
 
             this.Property(s => s.ServiceName).IsRequired();

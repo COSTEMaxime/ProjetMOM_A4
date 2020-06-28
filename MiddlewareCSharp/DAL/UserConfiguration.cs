@@ -11,9 +11,9 @@ namespace DAL
     {
         public UserConfiguration()
         {
-            this.ToTable("tUser");
-            this.HasKey(u => u.UserID);
-            this.Property(u => u.UserID)
+            this.ToTable("User");
+            this.HasKey(u => u.ID);
+            this.Property(u => u.ID)
                 .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
 
             this.HasIndex(u => u.Login).IsUnique();

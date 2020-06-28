@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class UserGroupServiceEntity
+    public class GroupServiceEntity
     {
-        public int UserGroupServiceID { get; set; }
-        public int UserGroupID { get; set; }
+        public int ID { get; set; }
+        public int GroupID { get; set; }
         public int ServiceID { get; set; }
 
-        public virtual UserGroupEntity UserGroup { get; set; }
+        public virtual GroupEntity Group { get; set; }
         public virtual ServiceEntity Service { get; set; }
     }
 }
