@@ -25,7 +25,11 @@ namespace Client {
             List<string> contents = new List<string>();
 
             foreach(string file in files) {
-                contents.Add(File.ReadAllText(file));
+                try {
+                    contents.Add(File.ReadAllText(file));
+                } catch(UnauthorizedAccessException) {
+                    contents.Add("");
+                }
             }
 
             return contents.Cast<string>().ToArray();

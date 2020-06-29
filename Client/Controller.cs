@@ -121,23 +121,29 @@ namespace Client {
 
         public async void decodeFiles(string[] files) {
             if(files.Length > 0) {
-                view.appendConsole("Decoding file(s) ...\n");
-
                 // Retreiving file contents
                 string[] contents = dao.getFilesContents(files);
                 Dictionary<string, string> data = new Dictionary<string, string>();
 
                 for (int i = 0; i < files.Length; i++)
-                    data.Add(files[i], contents[i]);
+                    if(contents[i].Length > 0)
+                        data.Add(files[i], contents[i]);
 
-                // Sending message to server
-                IAction action = new UserAction(new FileDecodeMessenger(userInfo, appInfo, data));
-                MiddlewareService.Message response = await Task.Run(() => action.carryOut());
+                if(data.Count() > 0) {
+                    view.appendConsole("Decoding file(s) ...\n");
 
-                if (response.operationStatus == true) {
-                    view.appendConsole("Ok.\n");
+                    // Sending message to server
+                    IAction action = new UserAction(new FileDecodeMessenger(userInfo, appInfo, data));
+                    MiddlewareService.Message response = await Task.Run(() => action.carryOut());
+
+                    if (response.operationStatus == true) {
+                        view.appendConsole("Ok.\n");
+                    }
+                    else {
+                        view.appendConsole("ERROR : " + response.info + "\n");
+                    }
                 } else {
-                    view.appendConsole("ERROR : " + response.info + "\n");
+                    view.appendConsole("ERROR : Directory dosen't contain any files.\n");
                 }
             } else {
                 view.appendConsole("ERROR : No file selected.\n");

@@ -102,7 +102,19 @@ namespace Client {
 
         private void decryptionButton_Click(object sender, EventArgs e) {
             List<string> files = new List<string>();
-            files.Add(systemFilesTreeView.SelectedNode.FullPath);
+
+            // Check if node is a file or a directory
+            if(systemFilesTreeView.SelectedNode.Nodes.Count > 0) {
+                // Directory
+                DirectoryInfo di = new DirectoryInfo(systemFilesTreeView.SelectedNode.FullPath);
+
+                foreach(string file in ctrl.loadDirectoryFiles(di.FullName))
+                    files.Add(file);
+
+            } else {
+                // File or empty directory                
+                files.Add(systemFilesTreeView.SelectedNode.FullPath);
+            }
 
             ctrl.decodeFiles(files.ToArray());
         }
