@@ -74,7 +74,7 @@ namespace MiddlewareWCF
                     msg requestMsg = new msg()
                     {
                         appToken = "middlewareCSharp",
-                        data = new object[] { decryptorClient.Item1.DocumentName, key, guuid, documentDecypher }
+                        data = new object[] { decryptorClient.Item1.DocumentName, key, guuid, Encoding.UTF8.GetBytes(documentDecypher) }
                     };
 
                     _ = decryptorClient.Item2.SendMessageAsync(requestMsg);
