@@ -57,12 +57,11 @@ namespace Client {
                     // Update model
                     userInfo.Token = (string)response.data[0];
                     userInfo.IsLoggedIn = true;
+
+                    view.appendConsole("Successfully logged in as " + userInfo.Username + "\n");
                 } else {
-                    view.appendConsole("ERROR : ");
+                    view.appendConsole("ERROR : " + response.info + "\n");
                 }
-
-                view.appendConsole(response.info + "\n");
-
             } else {
                 view.appendConsole("User is already logged in, please log out first !\n");
             }
@@ -85,17 +84,30 @@ namespace Client {
 
                     view.appendConsole("Logged out successfully !\n");
                 } else {
-                    // Manage error ...
+                    view.appendConsole("ERROR : " + response.info + "\n");
                 }
             } else {
                 view.appendConsole("Cannot log user out : Please log in first.\n");
             }
         }
 
-        public async void register() {
+        public async void register(string username, string password, string email) {
             view.appendConsole("Registering ...\n");
+
+            // Update model
+            userInfo.Username = username;
+            userInfo.Password = password;
+            userInfo.Email = email;
+
+            // Send message to middleware
             IAction action = new UserAction(new RegisterMessenger(userInfo, appInfo));
-            updateViewConsole(await Task.Run(() => action.carryOut()));
+            Client.MiddlewareService.Message response = await Task.Run(() => action.carryOut());
+            
+            if(response.operationStatus == true) {
+                view.appendConsole("Successfully created user !\n");
+            } else {
+                view.appendConsole("ERROR : " + response.info + "\n");
+            }
         }
 
         public async void decodeFiles(string[] files) {
@@ -114,6 +126,8 @@ namespace Client {
 
             if(response.operationStatus == true) {
                 view.appendConsole("Ok.\n");
+            } else {
+                view.appendConsole("ERROR : " + response.info + "\n");
             }
         }
     }

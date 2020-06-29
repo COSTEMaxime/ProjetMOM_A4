@@ -18,7 +18,11 @@ namespace Client {
             } catch(System.ServiceModel.EndpointNotFoundException) {
                 response = new Message();
                 response.operationStatus = false;
-                response.info = "Endpoint not found !";
+                response.info = "Endpoint not found.";
+            } catch(System.TimeoutException) {
+                response = new Message();
+                response.operationStatus = false;
+                response.info = "Request timed out.";
             }
 
             return response;

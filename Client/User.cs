@@ -21,7 +21,7 @@ namespace Client {
             Email = "";
             IsLoggedIn = false;
             groups = new string[1];
-            groups[0] = "USER";
+            groups[0] = "admin";
 
             // groups = new List<string>();
             // groups.Add("USER");

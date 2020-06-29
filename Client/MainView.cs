@@ -96,12 +96,7 @@ namespace Client {
         }
 
         private void registerButton_Click(object sender, EventArgs e) {
- 
-            // Update model
-            userInfo.Username = usernameTextBox.Text;
-            userInfo.Password = passwordTextBox.Text;
-
-            ctrl.register();
+             ctrl.register(usernameTextBox.Text, passwordTextBox.Text, emailTextBox.Text);
         }
 
         private void logoutButton_Click(object sender, EventArgs e) {
@@ -109,8 +104,6 @@ namespace Client {
         }
 
         private void decryptionButton_Click(object sender, EventArgs e) {
-            consoleTextBox.AppendText(systemFilesTreeView.SelectedNode.FullPath + "\n");
-
             List<string> files = new List<string>();
             files.Add(systemFilesTreeView.SelectedNode.FullPath);
 

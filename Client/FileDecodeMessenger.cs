@@ -28,7 +28,7 @@ namespace Client {
 
             msg.appToken = appInfo.Token;
             msg.appVersion = appInfo.Version;
-            msg.operationName = "serviceDecodeFile";
+            msg.operationName = "serviceDecrypt";
             msg.operationVersion = "";
             msg.operationStatus = false;
             msg.userToken = user.Token;
