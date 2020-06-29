@@ -26,12 +26,21 @@ public class ObjectFactory {
 
     private final static QName _ArrayOfanyType_QNAME = new QName("http://schemas.microsoft.com/2003/10/Serialization/Arrays", "ArrayOfanyType");
     private final static QName _ArrayOfstring_QNAME = new QName("http://schemas.microsoft.com/2003/10/Serialization/Arrays", "ArrayOfstring");
+    private final static QName _ArrayOfKeyValueOfstringstring_QNAME = new QName("http://schemas.microsoft.com/2003/10/Serialization/Arrays", "ArrayOfKeyValueOfstringstring");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.microsoft.schemas._2003._10.serialization.arrays
      * 
      */
     public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link ArrayOfKeyValueOfstringstring }
+     * 
+     */
+    public ArrayOfKeyValueOfstringstring createArrayOfKeyValueOfstringstring() {
+        return new ArrayOfKeyValueOfstringstring();
     }
 
     /**
@@ -51,6 +60,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ArrayOfKeyValueOfstringstring.KeyValueOfstringstring }
+     * 
+     */
+    public ArrayOfKeyValueOfstringstring.KeyValueOfstringstring createArrayOfKeyValueOfstringstringKeyValueOfstringstring() {
+        return new ArrayOfKeyValueOfstringstring.KeyValueOfstringstring();
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfanyType }{@code >}}
      * 
      */
@@ -66,6 +83,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://schemas.microsoft.com/2003/10/Serialization/Arrays", name = "ArrayOfstring")
     public JAXBElement<ArrayOfstring> createArrayOfstring(ArrayOfstring value) {
         return new JAXBElement<ArrayOfstring>(_ArrayOfstring_QNAME, ArrayOfstring.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ArrayOfKeyValueOfstringstring }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://schemas.microsoft.com/2003/10/Serialization/Arrays", name = "ArrayOfKeyValueOfstringstring")
+    public JAXBElement<ArrayOfKeyValueOfstringstring> createArrayOfKeyValueOfstringstring(ArrayOfKeyValueOfstringstring value) {
+        return new JAXBElement<ArrayOfKeyValueOfstringstring>(_ArrayOfKeyValueOfstringstring_QNAME, ArrayOfKeyValueOfstringstring.class, null, value);
     }
 
 }
