@@ -6,20 +6,24 @@
 package com.checker.messagemgmt.contract;
 
 import java.io.Serializable;
+import javax.xml.ws.BindingType;
 
 /**
  *
  * @author Nico
  */
-public class MSG implements Serializable{
-    private boolean opStatus;
-    private String info;
-    private Object[] data;
-    private String operationName;
-    private String appToken;
-    private String userToken;
-    private String appVersion;
-    private String operationVersion;
+@BindingType("http://java.sun.com/xml/ns/jaxws/2003/05/soap/bindings/HTTP/")
+public class MSG implements Serializable {
+
+    private static final long serialVersionUID = 908336348;
+    public boolean opStatus;
+    public String info;
+    public Object[] data;
+    public String operationName;
+    public String appToken;
+    public String userToken;
+    public String appVersion;
+    public String operationVersion;
 
     public static class MSGBuilder {
 
@@ -157,6 +161,5 @@ public class MSG implements Serializable{
     public String getOperationVersion() {
         return operationVersion;
     }
-    
-    
+
 }

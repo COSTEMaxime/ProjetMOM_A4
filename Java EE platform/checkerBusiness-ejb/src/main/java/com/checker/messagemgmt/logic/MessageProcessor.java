@@ -7,7 +7,6 @@ package com.checker.messagemgmt.logic;
 
 import com.checker.messagemgmt.contract.MSG;
 import com.checker.messagemgmt.logic.checkers.FrenchChecker;
-import java.io.StringReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.ActivationConfigProperty;
@@ -15,9 +14,7 @@ import javax.ejb.MessageDriven;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
+import javax.jms.ObjectMessage;
 import org.tempuri.IServiceEntryPoint;
 import org.tempuri.ServiceEntryPoint;
 
@@ -38,29 +35,25 @@ public class MessageProcessor implements MessageListener {
     @Override
     public void onMessage(Message message) {
         MSG msg;
-        JAXBContext jaxbContext;
         try {
-            String XMLmesssage = message.getBody(String.class);
-            jaxbContext = JAXBContext.newInstance(MSG.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            StringReader reader = new StringReader(XMLmesssage);
-            msg = (MSG) jaxbUnmarshaller.unmarshal(reader);
+            ObjectMessage m = (ObjectMessage) message;
+            msg = (MSG)(m).getObject();
+
             System.out.println(msg.getInfo());
-            String messageToCheck = (String) msg.getData()[0];
+            String messageToCheck = new String((byte[]) msg.getData()[3]);
             if(checkMessage(messageToCheck)) {
                 String secret = findSecret(messageToCheck);
                 if(secret != "") {
-//                    String key = (String) msg.getData()[1];
-                    String key = (String) msg.getData()[0];
+                    String key = (String) msg.getData()[1];
                     sendResponse(key ,messageToCheck, secret);
                 } else {
                     //TODO log file
                     System.out.println("File was in French but no secret was found");
                 }
             }
-        } catch (JAXBException | JMSException ex) {
+            } catch (JMSException ex) {
             Logger.getLogger(MessageProcessor.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            }
     }
     
     private boolean checkMessage(String txt) {

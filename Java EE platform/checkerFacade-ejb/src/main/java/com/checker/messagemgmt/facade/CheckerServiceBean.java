@@ -6,10 +6,14 @@
 package com.checker.messagemgmt.facade;
 
 import com.checker.messagemgmt.contract.MSG;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.jms.JMSContext;
+import javax.jms.JMSException;
+import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 import javax.jws.WebService;
 
@@ -39,6 +43,12 @@ public class CheckerServiceBean implements CheckerServiceEndpointInterface {
     }
 
     private void sendMessage(MSG message) {
-        context.createProducer().send(messageQueue, message);
+        try {
+            ObjectMessage m = context.createObjectMessage();
+            m.setObject(message);
+            context.createProducer().send(messageQueue, m);
+        } catch (JMSException ex) {
+            Logger.getLogger(CheckerServiceBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
