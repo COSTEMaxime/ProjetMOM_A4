@@ -5,35 +5,22 @@
  */
 package com.checker.messagemgmt.contract;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 /**
  *
  * @author Nico
  */
-@XmlRootElement
-    @XmlAccessorType(XmlAccessType.FIELD)
-public class MSG {
-    @XmlElement
-    private boolean opStatus;
-    @XmlElement
-    private String info;
-    @XmlElement
-    private Object[] data;
-    @XmlAttribute
-    private String operationName;
-    @XmlElement
-    private String appToken;
-    @XmlElement
-    private String userToken;
-    @XmlElement
-    private String appVersion;
-    @XmlElement
-    private String operationVersion;
+public class MSG implements Serializable{
+    private static final long serialVersionUID = 908336348;
+    public boolean opStatus;
+    public String info;
+    public Object[] data;
+    public String operationName;
+    public String appToken;
+    public String userToken;
+    public String appVersion;
+    public String operationVersion;
 
 
     public static class MSGBuilder {
