@@ -33,7 +33,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -51,6 +53,11 @@
     <Compile Include="BLPDF.cs" />
     <Compile Include="BLRegister.cs" />
     <Compile Include="BusinessAccessLayer.cs" />
+    <Compile Include="Connected Services\JavaEEService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="IService.cs" />
     <Compile Include="IWorkflowOrchestrator.cs" />
     <Compile Include="ServiceDecrypt.cs" />
@@ -75,6 +82,34 @@
       <Project>{631642E9-B01F-4A17-988F-CC104D69C38F}</Project>
       <Name>DAL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Connected Services\JavaEEService\CheckerService.wsdl" />
+    <None Include="Connected Services\JavaEEService\CheckerServiceBean.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\JavaEEService\MiddlewareWCF.JavaEEService.checkOperationResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\JavaEEService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\JavaEEService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\JavaEEService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\JavaEEService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

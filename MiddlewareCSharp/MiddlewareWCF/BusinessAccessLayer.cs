@@ -84,6 +84,23 @@ namespace MiddlewareWCF
         static private bool CheckUserToken(string login, string token)
         {
             if (token == "" || token == null) { return false; }
+
+            try
+            {
+                byte[] data = Convert.FromBase64String(token);
+                DateTime when = DateTime.FromBinary(BitConverter.ToInt64(data, 0));
+                if (when < DateTime.UtcNow.AddHours(-1))
+                {
+                    // expired token
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                // malformed token
+                return false;
+            }
+
             return DAO.GetInstance().GetUserByLogin(login)?.Token == token;
         }
 
