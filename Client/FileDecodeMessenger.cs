@@ -10,22 +10,21 @@ namespace Client {
 
         User user;
         ApplicationInfo appInfo;
-        string[] filesContent;
+        Dictionary<string, string> filesData;
 
-        public FileDecodeMessenger(User user, ApplicationInfo appInfo, string[] filesContent) {
+        public FileDecodeMessenger(User user, ApplicationInfo appInfo, Dictionary<string, string> filesData) {
             this.user = user;
             this.appInfo = appInfo;
-            this.filesContent = filesContent;
+            this.filesData = filesData;
         }
 
         public Message writeMessage() {
 
             Message msg = new Message();
 
-            object[] data = new object[3];
+            object[] data = new object[2];
             data[0] = user.Username;
-            data[1] = user.Token;
-            data[2] = filesContent;
+            data[1] = filesData;
 
             msg.appToken = appInfo.Token;
             msg.appVersion = appInfo.Version;

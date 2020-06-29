@@ -40,14 +40,56 @@ namespace Client {
             view.appendConsole(response.info + "\n");
         }
 
-        public async void login() {
-            view.appendConsole("Logging in ...\n");
-            IAction action = new UserAction(new LoginMessenger(userInfo, appInfo));
-            updateViewConsole(await Task.Run(() => action.carryOut()));
+        public async void login(string username, string password) {
+
+            if(userInfo.IsLoggedIn == false) {
+                // Update Model
+                userInfo.Username = username;
+                userInfo.Password = password;
+
+                view.appendConsole("Logging in ...\n");
+
+                // Send message to middleware
+                IAction action = new UserAction(new LoginMessenger(userInfo, appInfo));
+                MiddlewareService.Message response = await Task.Run(() => action.carryOut());
+
+                if(response.operationStatus == true) {
+                    // Update model
+                    userInfo.Token = (string)response.data[0];
+                    userInfo.IsLoggedIn = true;
+                } else {
+                    view.appendConsole("ERROR : ");
+                }
+
+                view.appendConsole(response.info + "\n");
+
+            } else {
+                view.appendConsole("User is already logged in, please log out first !\n");
+            }
         }
 
         public async void logout() {
-            throw new NotImplementedException();
+
+            if(userInfo.IsLoggedIn == true) {
+                view.appendConsole("Logging out ...\n");
+
+                // Send message to server
+                IAction action = new UserAction(new LogoutMessenger(userInfo, appInfo));
+                MiddlewareService.Message response = await Task.Run(() => action.carryOut());
+
+                if (response.operationStatus == true) {
+                    // Update Model
+                    userInfo.Username = "";
+                    userInfo.Password = "";
+                    userInfo.IsLoggedIn = false;
+
+                    view.appendConsole("Logged out successfully !\n");
+                } else {
+                    // Manage error ...
+                }
+            } else {
+                view.appendConsole("Cannot log user out : Please log in first.\n");
+            }
         }
 
         public async void register() {
@@ -58,9 +100,21 @@ namespace Client {
 
         public async void decodeFiles(string[] files) {
             view.appendConsole("Decoding file(s) ...\n");
+
+            // Retreiving file contents
             string[] contents = dao.getFilesContent(files);
-            IAction action = new UserAction(new FileDecodeMessenger(userInfo, appInfo, contents));
-            updateViewConsole(await Task.Run(() => action.carryOut()));
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            
+            for(int i = 0; i < files.Length; i++)
+                data.Add(files[i], contents[i]);
+
+            // Sending message to server
+            IAction action = new UserAction(new FileDecodeMessenger(userInfo, appInfo, data));
+            MiddlewareService.Message response = await Task.Run(() => action.carryOut());
+
+            if(response.operationStatus == true) {
+                view.appendConsole("Ok.\n");
+            }
         }
     }
 }

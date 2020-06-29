@@ -15,7 +15,7 @@ namespace Client {
 
             try {
                 response = client.AccessService(msg);
-            } catch(System.ServiceModel.EndpointNotFoundException e) {
+            } catch(System.ServiceModel.EndpointNotFoundException) {
                 response = new Message();
                 response.operationStatus = false;
                 response.info = "Endpoint not found !";

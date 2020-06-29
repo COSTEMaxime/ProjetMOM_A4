@@ -21,8 +21,8 @@ namespace Client {
             Message msg = new Message();
 
             object[] data = new object[2];
-            data.Append(user.Username);
-            data.Append(user.Password);
+            data[0] = user.Username;
+            data[1] = user.Password;
 
             msg.appToken = appInfo.Token;
             msg.appVersion = appInfo.Version;

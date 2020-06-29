@@ -92,7 +92,7 @@ namespace Client {
         }
 
         private void loginButton_Click(object sender, EventArgs e) {
-            ctrl.login();
+            ctrl.login(usernameTextBox.Text, passwordTextBox.Text);
         }
 
         private void registerButton_Click(object sender, EventArgs e) {

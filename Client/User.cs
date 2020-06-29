@@ -11,14 +11,15 @@ namespace Client {
         public string Password { get; set; }
         public string Token { get; set; }
         public string Email { get; set; }
-        // public List<string> groups { get; set; }
         public string[] groups { get; set; }
+        public bool IsLoggedIn { get; set; }
 
         public User() {
             Username = "";
             Password = "";
             Token = "";
             Email = "";
+            IsLoggedIn = false;
             groups = new string[1];
             groups[0] = "USER";
 
