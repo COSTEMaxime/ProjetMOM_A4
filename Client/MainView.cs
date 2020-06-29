@@ -29,17 +29,14 @@ namespace Client {
         }
 
         private void MainView_Load(object sender, EventArgs e) {
-            string[] drives = Environment.GetLogicalDrives();
 
-            foreach (string drive in drives) {
-                DriveInfo di = new DriveInfo(drive);
+        }
 
+        public void loadDrives(string[] drives) {
+            foreach(string drive in drives) {
                 TreeNode node = new TreeNode(drive.Substring(0, 2));
                 node.Tag = drive;
-
-                if (di.IsReady == true)
-                    node.Nodes.Add("...");
-
+                node.Nodes.Add("...");
                 systemFilesTreeView.Nodes.Add(node);
             }
         }
@@ -54,7 +51,7 @@ namespace Client {
                 if (e.Node.Nodes[0].Text == "..." && e.Node.Nodes[0].Tag == null) {
                     e.Node.Nodes.Clear();
 
-                    string[] dirs = Directory.GetDirectories(e.Node.Tag.ToString());
+                    string[] dirs = ctrl.loadSubDirectories(e.Node.Tag.ToString());
 
                     DirectoryInfo rootDir = new DirectoryInfo(e.Node.Tag.ToString());
                     foreach (var file in rootDir.GetFiles()) {

@@ -26,18 +26,16 @@ namespace Client {
 
         private void InitView() {
             view = new MainView(userInfo, appInfo, this);
+            view.loadDrives(dao.getDrives());
             Application.Run(view);
         }
 
-        public List<string> loadSubDirectories(string directory) {
-            return dao.getSubDirectoriesAndFiles(directory);
+        public string[] loadSubDirectories(string directoryName) {
+            return dao.getSubDirectories(directoryName);
         }
 
-        private void updateViewConsole(MiddlewareService.Message response) {
-            if(response.operationStatus != true) {
-                view.appendConsole("[ERROR] ");
-            }
-            view.appendConsole(response.info + "\n");
+        public string[] loadDirectoryFiles(string directoryName) {
+            return dao.getDirectoryFiles(directoryName);
         }
 
         public async void login(string username, string password) {
@@ -114,7 +112,7 @@ namespace Client {
             view.appendConsole("Decoding file(s) ...\n");
 
             // Retreiving file contents
-            string[] contents = dao.getFilesContent(files);
+            string[] contents = dao.getFilesContents(files);
             Dictionary<string, string> data = new Dictionary<string, string>();
             
             for(int i = 0; i < files.Length; i++)
