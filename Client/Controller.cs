@@ -41,27 +41,33 @@ namespace Client {
         public async void login(string username, string password) {
 
             if(userInfo.IsLoggedIn == false) {
-                // Update Model
-                userInfo.Username = username;
-                userInfo.Password = password;
 
-                view.appendConsole("Logging in ...\n");
+                if(username != "" && password != "") {
+                    view.appendConsole("Logging in ...\n");
 
-                // Send message to middleware
-                IAction action = new UserAction(new LoginMessenger(userInfo, appInfo));
-                MiddlewareService.Message response = await Task.Run(() => action.carryOut());
+                    // Update Model
+                    userInfo.Username = username;
+                    userInfo.Password = password;
 
-                if(response.operationStatus == true) {
-                    // Update model
-                    userInfo.Token = (string)response.data[0];
-                    userInfo.IsLoggedIn = true;
+                    // Send message to middleware
+                    IAction action = new UserAction(new LoginMessenger(userInfo, appInfo));
+                    MiddlewareService.Message response = await Task.Run(() => action.carryOut());
 
-                    view.appendConsole("Successfully logged in as " + userInfo.Username + "\n");
+                    if (response.operationStatus == true) {
+                        // Update model
+                        userInfo.Token = (string)response.data[0];
+                        userInfo.IsLoggedIn = true;
+
+                        view.appendConsole("Successfully logged in as " + userInfo.Username + "\n");
+                    }
+                    else {
+                        view.appendConsole("ERROR : " + response.info + "\n");
+                    }
                 } else {
-                    view.appendConsole("ERROR : " + response.info + "\n");
+                    view.appendConsole("ERROR : Invalid username or password.\n");
                 }
             } else {
-                view.appendConsole("User is already logged in, please log out first !\n");
+                view.appendConsole("ERROR : User is already logged in, please log out first !\n");
             }
         }
 
@@ -85,47 +91,56 @@ namespace Client {
                     view.appendConsole("ERROR : " + response.info + "\n");
                 }
             } else {
-                view.appendConsole("Cannot log user out : Please log in first.\n");
+                view.appendConsole("ERROR : Cannot log user out : Please log in first.\n");
             }
         }
 
         public async void register(string username, string password, string email) {
-            view.appendConsole("Registering ...\n");
-
-            // Update model
-            userInfo.Username = username;
-            userInfo.Password = password;
-            userInfo.Email = email;
-
-            // Send message to middleware
-            IAction action = new UserAction(new RegisterMessenger(userInfo, appInfo));
-            Client.MiddlewareService.Message response = await Task.Run(() => action.carryOut());
             
-            if(response.operationStatus == true) {
-                view.appendConsole("Successfully created user !\n");
+            if(username != "" && password != "" && email.Contains("@")) {
+                view.appendConsole("Registering ...\n");
+
+                // Update model
+                userInfo.Username = username;
+                userInfo.Password = password;
+                userInfo.Email = email;
+
+                // Send message to middleware
+                IAction action = new UserAction(new RegisterMessenger(userInfo, appInfo));
+                Client.MiddlewareService.Message response = await Task.Run(() => action.carryOut());
+
+                if (response.operationStatus == true) {
+                    view.appendConsole("Successfully created user !\n");
+                } else {
+                    view.appendConsole("ERROR : " + response.info + "\n");
+                }
             } else {
-                view.appendConsole("ERROR : " + response.info + "\n");
+                view.appendConsole("ERROR : Invalid username, password or email.\n");
             }
         }
 
         public async void decodeFiles(string[] files) {
-            view.appendConsole("Decoding file(s) ...\n");
+            if(files.Length > 0) {
+                view.appendConsole("Decoding file(s) ...\n");
 
-            // Retreiving file contents
-            string[] contents = dao.getFilesContents(files);
-            Dictionary<string, string> data = new Dictionary<string, string>();
-            
-            for(int i = 0; i < files.Length; i++)
-                data.Add(files[i], contents[i]);
+                // Retreiving file contents
+                string[] contents = dao.getFilesContents(files);
+                Dictionary<string, string> data = new Dictionary<string, string>();
 
-            // Sending message to server
-            IAction action = new UserAction(new FileDecodeMessenger(userInfo, appInfo, data));
-            MiddlewareService.Message response = await Task.Run(() => action.carryOut());
+                for (int i = 0; i < files.Length; i++)
+                    data.Add(files[i], contents[i]);
 
-            if(response.operationStatus == true) {
-                view.appendConsole("Ok.\n");
+                // Sending message to server
+                IAction action = new UserAction(new FileDecodeMessenger(userInfo, appInfo, data));
+                MiddlewareService.Message response = await Task.Run(() => action.carryOut());
+
+                if (response.operationStatus == true) {
+                    view.appendConsole("Ok.\n");
+                } else {
+                    view.appendConsole("ERROR : " + response.info + "\n");
+                }
             } else {
-                view.appendConsole("ERROR : " + response.info + "\n");
+                view.appendConsole("ERROR : No file selected.\n");
             }
         }
     }

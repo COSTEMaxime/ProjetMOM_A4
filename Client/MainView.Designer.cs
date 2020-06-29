@@ -168,7 +168,7 @@
             this.decryptionButton.Name = "decryptionButton";
             this.decryptionButton.Size = new System.Drawing.Size(105, 23);
             this.decryptionButton.TabIndex = 1;
-            this.decryptionButton.Text = "Decrypt";
+            this.decryptionButton.Text = "Decode";
             this.decryptionButton.UseVisualStyleBackColor = true;
             this.decryptionButton.Click += new System.EventHandler(this.decryptionButton_Click);
             // 
