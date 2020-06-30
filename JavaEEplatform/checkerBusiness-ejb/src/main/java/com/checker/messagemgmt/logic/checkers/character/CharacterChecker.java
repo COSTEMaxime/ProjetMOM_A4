@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
  * @author Nico
  */
 public class CharacterChecker implements ICharacterChecker {
+    private final static int PERCENTAGE_DECIMAL_FIGURES = 2;
 
     @Override
     public boolean frequencyAnalysis(char c, String txt) {
@@ -24,7 +25,7 @@ public class CharacterChecker implements ICharacterChecker {
     }
 
     @Override
-    public boolean check(String txt) {
+    public float check(String txt) {
         String sample = txt.length() > 300 ? txt.substring(0,300):txt;
         return frequencyPretest(sample);
     }
@@ -59,26 +60,40 @@ public class CharacterChecker implements ICharacterChecker {
             return true;
         }
     }
+    
+    private float calculateCoherance(int totalMeasuredPercentage, int totalExpectedPercentage) {
+        int delta = Math.abs(totalExpectedPercentage - totalMeasuredPercentage);
+        return 1-((float)delta / totalExpectedPercentage);
+    }
 
-    public boolean frequencyPretest(String txt) {
-        String[] words = getWords(txt); //punctuation is excluded from the count
-        Map<Integer, Long> letterCount = countAllChars(words);
-        HashMap<Character, Integer> frequencyMap = getFrequencies();
+    public float frequencyPretest(String txt) {
         int totalExpectedPercentage = 0;
         int totalMeasuredPercentage = 0;
-        for (HashMap.Entry< Character, Integer> entry : frequencyMap.entrySet()) {
+        String[] words = getWords(txt); //punctuation is excluded from the count
+        Map<Integer, Long> letterCountMap = countAllChars(words);
+        HashMap<Character, Integer> frequencyMap = getFrequencies();
+        
+        for (HashMap.Entry< Character, Integer> entry : frequencyMap.entrySet()) {  
             char c = entry.getKey();
             int charInt = c; //easier to compare ints so we convert our char
-            int percentage = entry.getValue();
+            int percentage = entry.getValue(); //could be in part per thousand or in ppm depending on the database
             
-            if(!letterCount.containsKey(charInt)) {
+            if(!letterCountMap.containsKey(charInt)) {
                 System.out.println("-Inplausible frequency. No "+c+" found.");
-                return false;
+                return 0.0f;
             }
             totalExpectedPercentage += percentage;
-            totalMeasuredPercentage += (1000*letterCount.get(charInt)) / txt.length();
+            /*
+            
+            */
+            try {
+                totalMeasuredPercentage += (Math.pow(10, 1+PERCENTAGE_DECIMAL_FIGURES) * (letterCountMap.get(charInt)) / txt.length());                
+            } catch (ArithmeticException ex) {
+                System.out.println(ex);
+            }
         }
-        return isfrequencyCoherent(totalMeasuredPercentage, totalExpectedPercentage);
+//        return isfrequencyCoherent(totalMeasuredPercentage, totalExpectedPercentage);
+        return calculateCoherance(totalMeasuredPercentage, totalExpectedPercentage);
     }
     
     public String[] getWords(String txt) {

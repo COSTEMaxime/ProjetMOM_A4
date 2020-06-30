@@ -15,11 +15,12 @@ import com.checker.messagemgmt.logic.checkers.word.ListWordChecker;
 public class FrenchChecker implements IChecker{
 
     @Override
-    public boolean check(String txt) {
-        if(new CharacterChecker().check(txt)) {
+    public float check(String txt) throws ArithmeticException{
+        float frequencyCertainty = new CharacterChecker().check(txt);
+        if( frequencyCertainty> 0.5f) {
             return new ListWordChecker().check(txt);
         }
-        return false;
+        return frequencyCertainty;
     }
     
 }
