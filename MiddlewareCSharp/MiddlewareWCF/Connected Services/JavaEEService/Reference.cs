@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ServiceModel;
+
 namespace MiddlewareWCF.JavaEEService {
     
     
@@ -35,20 +37,28 @@ namespace MiddlewareWCF.JavaEEService {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://facade.messagemgmt.checker.com/")]
     public partial class msg : object, System.ComponentModel.INotifyPropertyChanged {
         
+        [MessageBodyMember]
         private bool opStatusField;
-        
+
+        [MessageBodyMember]
         private string infoField;
-        
+
+        [MessageBodyMember]
         private object[] dataField;
-        
+
+        [MessageBodyMember]
         private string operationNameField;
-        
+
+        [MessageBodyMember]
         private string appTokenField;
-        
+
+        [MessageBodyMember]
         private string userTokenField;
-        
+
+        [MessageBodyMember]
         private string appVersionField;
-        
+
+        [MessageBodyMember]
         private string operationVersionField;
         
         /// <remarks/>
