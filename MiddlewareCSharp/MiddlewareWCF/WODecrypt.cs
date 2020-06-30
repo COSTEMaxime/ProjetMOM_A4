@@ -1,5 +1,6 @@
 ﻿using ContractWCF;
 using DAL;
+using MiddlewareWCF.JavaEEService;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
@@ -15,9 +16,6 @@ namespace MiddlewareWCF
 {
     class WODecrypt : IWorkflowOrchestrator
     {
-        private static readonly string URl = "http://localhost:14080/CheckerService/CheckerServiceBean";
-        private static readonly string ACTION = "http://localhost:14080/CheckerService/CheckerServiceBean?Tester";
-
         public static IDictionary<string, EventWaitHandle> SecretFound = new Dictionary<string, EventWaitHandle>();
         public static IDictionary<string, object[]> horribleList = new Dictionary<string, object[]>();
         private static int CPuCoreCount
@@ -47,12 +45,16 @@ namespace MiddlewareWCF
 
             bool secretFound = false;
 
-            string guuid = Guid.NewGuid().ToString();
-            List<BLDecrypt> decryptors = new List<BLDecrypt>();
+            List<Tuple<BLDecrypt, BLJEEMessage>> decryptorsClients = new List<Tuple<BLDecrypt, BLJEEMessage>>();
             foreach (var document in documents)
             {
-                decryptors.Add(new BLDecrypt(document.Key, document.Value));
+                decryptorsClients.Add(new Tuple<BLDecrypt, BLJEEMessage>(
+                    new BLDecrypt(document.Key, document.Value),
+                    new BLJEEMessage()
+                ));
             }
+
+            string guuid = Guid.NewGuid().ToString();
             SecretFound[guuid] = new EventWaitHandle(false, EventResetMode.AutoReset);
             new Thread(() =>
             {
@@ -65,33 +67,18 @@ namespace MiddlewareWCF
             {
                 string key = BLDecrypt.GetKey(keyCount);
 
-                //Parallel.ForEach(decryptors, new ParallelOptions { MaxDegreeOfParallelism = WODecrypt.CPuCoreCount }, blDecrypt =>
-                //{
-                //    string documentDecypher = blDecrypt.DecypherDocument(key);
-
-                //    BLJEEMessage bLJEEMessage = new BLJEEMessage(WODecrypt.URl, WODecrypt.ACTION);
-                //    Message payload = new Message
-                //    {
-                //        appToken = "middlewareCSharp",
-                //        data = new object[] { blDecrypt.DocumentName, key, guuid, documentDecypher }
-                //    };
-
-                //    bLJEEMessage.PrepareAndSendMessage(message);
-                //});
-
-                foreach (var decryptor in decryptors)
+                Parallel.ForEach(decryptorsClients, new ParallelOptions { MaxDegreeOfParallelism = WODecrypt.CPuCoreCount }, decryptorClient =>
                 {
-                    string documentDecypher = decryptor.DecypherDocument(key);
+                    string documentDecypher = decryptorClient.Item1.DecypherDocument(key);
 
-                    BLJEEMessage bLJEEMessage = new BLJEEMessage(WODecrypt.URl, WODecrypt.ACTION);
-                    Message payload = new Message
+                    msg requestMsg = new msg()
                     {
                         appToken = "middlewareCSharp",
-                        data = new object[] { decryptor.DocumentName, key, guuid, documentDecypher }
+                        data = new object[] { decryptorClient.Item1.DocumentName, key, guuid, Encoding.UTF8.GetBytes(documentDecypher) }
                     };
 
-                    bLJEEMessage.PrepareAndSendMessage(payload);
-                };
+                    _ = decryptorClient.Item2.SendMessageAsync(requestMsg);
+                });
 
                 keyCount++;
             }
@@ -104,9 +91,7 @@ namespace MiddlewareWCF
 
             // get entry that starts with guuid
             // remove event
-            object[] test = horribleList[guuid];
-            SecretFound.Remove(guuid);
-            horribleList.Remove(guuid);
+            object[] response = horribleList[guuid];
 
             //string documentName, key, guuid, documentDecypher, secret, confidence;
 
@@ -127,46 +112,16 @@ namespace MiddlewareWCF
             //        operationStatus = false
             //    };
             //}
+            SecretFound.Remove(guuid);
+            horribleList.Remove(guuid);
 
             // generate pdf
             // send mail
             return new Message
             {
                 operationStatus = true,
-                data = test
+                data = response
             };
-
-            //foreach (var document in documents)
-            //{
-            //    // error if tested all keys
-            //    Parallel.For(BLDecrypt.MinKey, BLDecrypt.MaxKey, new ParallelOptions { MaxDegreeOfParallelism = WODecrypt.CPuCoreCount }, i =>
-            //    {
-            //        string key = bLDecrypt.GetKey(i);
-            //        string documentDecypher = bLDecrypt.DecypherDocument(key);
-
-            //        BLJEEMessage bLJEEMessage = new BLJEEMessage(WODecrypt.URl, WODecrypt.ACTION);
-            //        Message payload = new Message
-            //        {
-            //            appToken = "middlewareCSharp",
-            //            data = new object[] { documentDecypher, document.Key, }
-            //        };
-
-            //        bLJEEMessage.PrepareAndSendMessage(message);
-            //    });
-
-            //while (i < BLDecrypt.MaxKey)
-            //{
-            //    string key = bLDecrypt.GetKey(i);
-            //    string documentDecypher = bLDecrypt.DecypherDocument(key);
-
-            //    BLJEEMessage bLJEEMessage = new BLJEEMessage(WODecrypt.URl, WODecrypt.ACTION);
-            //    Message payload = new Message
-            //    {
-            //        appToken = "middlewareCSharp",
-            //        data = new object[] { documentDecypher, document.Key,  }
-            //    };
-            //}
-            //}
         }
     }
 }

@@ -12,8 +12,6 @@ namespace MiddlewareWCF
 {
     class BLDecrypt
     {
-        public string Secret { get; private set; }
-        public string Key { get; private set; }
         public string Document { get; private set; }
         public string DocumentName { get; private set; }
 
@@ -47,7 +45,9 @@ namespace MiddlewareWCF
             StringBuilder result = new StringBuilder();
 
             for (int c = 0; c < Document.Length; c++)
-                result.Append((char)((uint)Document[c] ^ (uint)key[c % key.Length]));
+            {
+                result.Append((char)(Document[c] ^ key[c % key.Length]));
+            }
 
             return result.ToString();
         }

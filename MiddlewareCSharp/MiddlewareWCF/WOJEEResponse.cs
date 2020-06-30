@@ -11,6 +11,15 @@ namespace MiddlewareWCF
     {
         public Message Execute(Message message)
         {
+            if (!message.operationStatus)
+            {
+                return new Message
+                {
+                    info = "JavaEE response status is false",
+                    operationStatus = false
+                };
+            }
+
             string guuid;
 
             try
