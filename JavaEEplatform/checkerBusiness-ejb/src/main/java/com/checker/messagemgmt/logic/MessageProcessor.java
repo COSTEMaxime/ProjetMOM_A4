@@ -9,10 +9,13 @@ import com.checker.messagemgmt.contract.MSG;
 import com.checker.messagemgmt.logic.checkers.FrenchChecker;
 import com.microsoft.schemas._2003._10.serialization.ObjectFactory;
 import com.microsoft.schemas._2003._10.serialization.arrays.ArrayOfanyType;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
 import javax.jms.JMSException;
@@ -32,7 +35,7 @@ import org.tempuri.ServiceEntryPoint;
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue")
 })
 public class MessageProcessor implements MessageListener {
-    
+
     public MessageProcessor() {
     }
 
@@ -41,53 +44,54 @@ public class MessageProcessor implements MessageListener {
         MSG msg;
         try {
             ObjectMessage m = (ObjectMessage) message;
-            msg = (MSG)(m).getObject();
+            msg = (MSG) (m).getObject();
 
-            System.out.println(msg.getInfo());
             String messageToCheck = new String((byte[]) msg.getData()[3]);
-            if(checkMessage(messageToCheck)) {
+            float confidence = checkMessage(messageToCheck);
+            if (confidence > 0.5f) {
                 String secret = findSecret(messageToCheck);
-                if(secret != "") {
+                if (secret != "") {
                     String key = (String) msg.getData()[1];
-                    sendResponse(key ,messageToCheck, secret, msg);
+                    sendResponse(key, messageToCheck, secret, msg);
                 } else {
-                    //TODO log file
-                    System.out.println("File was in French but no secret was found");
+                    logFile("File "+msg.getData()[0]
+                            +" was in French but no secret was found. Key : " + msg.getData()[1]
+                            +" Confdence : " + confidence, Level.WARNING);
+//                    System.out.println("File was in French but no secret was found");
                 }
             }
-            } catch (JMSException ex) {
+        } catch (JMSException ex) {
             Logger.getLogger(MessageProcessor.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        }
     }
-    
-    private boolean checkMessage(String txt) {
+
+    private float checkMessage(String txt) {
         return new FrenchChecker().check(txt);
     }
-    
-    
+
     private String findSecret(String txt) {
         /**
          * We only know that the secret is preceeded by "l’information secrète"
-         * So we have to make a guess as to where it stops.
-         * My guess is that the identifier and the secret are on the same line.
+         * So we have to make a guess as to where it stops. My guess is that the
+         * identifier and the secret are on the same line.
          */
         String[] lines = txt.split("\r");
-        for(String line : lines) {
-            if(line.contains("secrete")) {
+        for (String line : lines) {
+            if (line.contains("l'information secrète")) {
                 return line;
             }
         }
         return "";
     }
-    
+
     private double calculateConfidence(String sample, String wholeText) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
-    private void sendResponse(String key , String messageToCheck, String secret, MSG msg) {
-        System.out.println("Secret found, will send the secret : "+secret);
+
+    private void sendResponse(String key, String messageToCheck, String secret, MSG msg) {
+        System.out.println("Secret found, will send the secret : " + secret);
         float cert = 0.99f;
-        MSG msg2 = new MSG.MSGBuilder().setData(new Object[] {
+        MSG msg2 = new MSG.MSGBuilder().setData(new Object[]{
             msg.getData()[0],
             msg.getData()[1],
             msg.getData()[2],
@@ -103,7 +107,7 @@ public class MessageProcessor implements MessageListener {
 //        ep.getSvc().accessService(message);
 //        service.accessService(message);
     }
-    
+
     private org.datacontract.schemas._2004._07.contractwcf.Message convertMessage(MSG msg) {
         org.datacontract.schemas._2004._07.contractwcf.Message message = new org.datacontract.schemas._2004._07.contractwcf.Message();
         message.setOperationStatus(true);
@@ -117,5 +121,19 @@ public class MessageProcessor implements MessageListener {
         message.setAppToken(factory.createAnyURI("java"));
 //        message.setData(msg.getData());
         return message;
+    }
+
+    private void logFile(String textToLog, Level logLevel) {
+        Logger logger = Logger.getLogger("MyLog");
+        FileHandler fh;
+        try {
+            fh = new FileHandler("checkResults.log");
+            logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+        } catch (SecurityException | IOException e) {
+            e.printStackTrace();
+        }
+        logger.log(logLevel, textToLog);
     }
 }

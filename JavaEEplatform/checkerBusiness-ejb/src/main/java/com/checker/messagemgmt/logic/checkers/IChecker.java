@@ -10,5 +10,5 @@ package com.checker.messagemgmt.logic.checkers;
  * @author Nico
  */
 public interface IChecker {
-    boolean check(String txt);
+    float check(String txt);
 }

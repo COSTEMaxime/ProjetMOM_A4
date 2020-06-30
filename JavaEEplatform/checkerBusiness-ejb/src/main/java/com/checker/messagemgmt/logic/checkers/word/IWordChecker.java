@@ -6,7 +6,6 @@
 package com.checker.messagemgmt.logic.checkers.word;
 
 import com.checker.messagemgmt.logic.checkers.IChecker;
-import com.checker.messagemgmt.logic.checkers.IChecker;
 
 /**
  *
