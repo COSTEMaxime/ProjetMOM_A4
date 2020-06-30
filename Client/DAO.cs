@@ -29,6 +29,8 @@ namespace Client {
                     contents.Add(File.ReadAllText(file));
                 } catch(UnauthorizedAccessException) {
                     contents.Add("");
+                } catch(IOException) {
+                    contents.Add("");
                 }
             }
 

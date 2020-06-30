@@ -103,20 +103,25 @@ namespace Client {
         private void decryptionButton_Click(object sender, EventArgs e) {
             List<string> files = new List<string>();
 
-            // Check if node is a file or a directory
-            if(systemFilesTreeView.SelectedNode.Nodes.Count > 0) {
-                // Directory
-                DirectoryInfo di = new DirectoryInfo(systemFilesTreeView.SelectedNode.FullPath);
+            if(systemFilesTreeView.SelectedNode != null) {
+                // Check if node is a file or a directory
+                if (systemFilesTreeView.SelectedNode.Nodes.Count > 0) {
+                    // Directory
+                    DirectoryInfo di = new DirectoryInfo(systemFilesTreeView.SelectedNode.FullPath);
 
-                foreach(string file in ctrl.loadDirectoryFiles(di.FullName))
-                    files.Add(file);
+                    foreach (string file in ctrl.loadDirectoryFiles(di.FullName))
+                        files.Add(file);
 
+                }
+                else {
+                    // File or empty directory                
+                    files.Add(systemFilesTreeView.SelectedNode.FullPath);
+                }
+
+                ctrl.decodeFiles(files.ToArray());
             } else {
-                // File or empty directory                
-                files.Add(systemFilesTreeView.SelectedNode.FullPath);
+                consoleTextBox.AppendText("ERROR : Please select a file or directory.\n");
             }
-
-            ctrl.decodeFiles(files.ToArray());
         }
     }
 }
