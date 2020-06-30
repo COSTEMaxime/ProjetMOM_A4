@@ -10,10 +10,10 @@ namespace MiddlewareWCF
 {
     class BusinessAccessLayer
     {
+        private static readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
         static public Message Dispatch(Message message)
         {
-            // TODO: add logs
-
             // can't authenticate user if he is creating an account / login
             if (message.operationName != "serviceRegister"
                 && message.operationName != "serviceLogin"
@@ -22,6 +22,7 @@ namespace MiddlewareWCF
                 var authorisationStatus = BusinessAccessLayer.CheckAuthorisation(message);
                 if (!authorisationStatus.Item1)
                 {
+                    logger.Info("Denied service access : " + authorisationStatus.Item2);
                     return new Message
                     {
                         info = "You don't have access to this service : " + authorisationStatus.Item2,
@@ -50,9 +51,11 @@ namespace MiddlewareWCF
                     workflowOrchestrator = new WOJEEResponse();
                     break;
                 default:
+                    logger.Error("Workflow orchestrator not found : \"" + message.operationName + "\"");
                     throw new Exception("WorkflowOrchestrator \"" + message.operationName +"\" does not exists");
             }
 
+            logger.Info("Authorized service access to user : \"" + message.data[0] + "\", requested service service : \"" + message.operationName + "\"");
             return workflowOrchestrator.Execute(message);
         }
 
@@ -92,12 +95,14 @@ namespace MiddlewareWCF
                 if (when < DateTime.UtcNow.AddHours(-1))
                 {
                     // expired token
+                    logger.Info("User tried to connect with an expired token. Creation date was : " + when.ToLongDateString());
                     return false;
                 }
             }
             catch (Exception)
             {
                 // malformed token
+                logger.Info("User tried to connect with a malformed token : \"" + token + "\"");
                 return false;
             }
 
@@ -121,6 +126,7 @@ namespace MiddlewareWCF
                 }
             }
 
+            logger.Info("Denied access to service : \"" + operatioName + "\" for user : \"" + login + "\"");
             return false;
         }
     }

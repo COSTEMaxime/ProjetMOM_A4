@@ -6,6 +6,8 @@ namespace MiddlewareWCF
 {
     class WOLogout : IWorkflowOrchestrator
     {
+        private static readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
         public Message Execute(Message message)
         {
             string login;
@@ -16,6 +18,7 @@ namespace MiddlewareWCF
             }
             catch (Exception)
             {
+                logger.Info("Malformed mesage : " + message);
                 return new Message
                 {
                     info = "Malformed message",
@@ -26,9 +29,20 @@ namespace MiddlewareWCF
             UserEntity user = DAO.GetInstance().GetUserByLogin(login);
             user.Token = "";
 
+            bool status = DAO.GetInstance().SaveChanges();
+
+            if (status)
+            {
+                logger.Info("Logged out user : \"" + login + "\"");
+            }
+            else
+            {
+                logger.Error("Could not log out user : \"" + login + "\"");
+            }
+
             return new Message
             {
-                operationStatus = DAO.GetInstance().SaveChanges()
+                operationStatus = status
             };
         }
     }
