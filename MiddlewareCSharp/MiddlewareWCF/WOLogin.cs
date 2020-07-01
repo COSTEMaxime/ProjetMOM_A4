@@ -9,6 +9,8 @@ namespace MiddlewareWCF
 {
     class WOLogin : IWorkflowOrchestrator
     {
+        private static readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
         public Message Execute(Message message)
         {
             string login, password;
@@ -20,6 +22,7 @@ namespace MiddlewareWCF
             }
             catch (Exception)
             {
+                logger.Info("Malformed mesage : " + message);
                 return new Message
                 {
                     info = "Malformed message",
@@ -30,6 +33,7 @@ namespace MiddlewareWCF
             BLLogin blLogin = new BLLogin();
             if (blLogin.Login(login, password))
             {
+                logger.Info("Logged user : \"" + login +"\"");
                 return new Message
                 {
                     info = "Success (login)",
@@ -39,6 +43,7 @@ namespace MiddlewareWCF
             }
             else
             {
+                logger.Info("Wrong username / password for user : \"" + login + "\"");
                 return new Message
                 {
                     info = "Login failed (invalid login or password)",

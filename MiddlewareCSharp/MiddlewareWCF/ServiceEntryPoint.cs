@@ -6,6 +6,8 @@ namespace MiddlewareWCF
 {
     public class ServiceEntryPoint : IServiceEntryPoint
     {
+        private static readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
         public Message AccessService(Message message)
         {
             Message response = new Message();
@@ -14,9 +16,12 @@ namespace MiddlewareWCF
             {
                 response.info = "Wrong app token : \"" + message.appToken + "\"";
                 response.operationStatus = false;
+
+                logger.Info("Wrong app token : " + message.appToken);
             }
             else
             {
+                logger.Info("Dispatch client request for service : " + message.operationName);
                 response = DispatchToService(message);
             }
 
@@ -60,6 +65,7 @@ namespace MiddlewareWCF
                     service = new ServiceDecrypt();
                     break;
                 default:
+                    logger.Info("Unknown web service : " + message.operationName);
                     return new Message
                     {
                         info = "Invalid operatioName : \"" + message.operationName + "\"",

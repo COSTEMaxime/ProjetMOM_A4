@@ -11,6 +11,8 @@ namespace MiddlewareWCF
 {
     class WORegister : IWorkflowOrchestrator
     {
+        private static readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
         public Message Execute(Message message)
         {
             BLRegister bLRegister = new BLRegister();
@@ -27,6 +29,7 @@ namespace MiddlewareWCF
             }
             catch (Exception)
             {
+                logger.Info("Malformed mesage : " + message);
                 return new Message
                 {
                     info = "Malformed message",
@@ -36,6 +39,7 @@ namespace MiddlewareWCF
 
             if (bLRegister.IsLoginUsed(login))
             {
+                logger.Info("Login already used : \"" + login + "\"");
                 return new Message
                 {
                     info = "Login already used : \"" + login + "\"",
@@ -45,6 +49,7 @@ namespace MiddlewareWCF
 
             if (!bLRegister.Register(login, password, email, groups))
             {
+                logger.Error("Could not create user : \"" + login + "\"; database error ?");
                 return new Message
                 {
                     info = "Could not create user : \"" + login + "\"",
@@ -56,6 +61,8 @@ namespace MiddlewareWCF
             MailMessage mail = blEmail.CreateMailMessage("Welcome !", $"Thanks for creating an account {login}");
             blEmail.SendEmail(email, mail);
 
+
+            logger.Info("Created user : \"" + login + "\"");
             return new Message
             {
                 info = "Created user: \"" + login + "\"",
