@@ -37,10 +37,9 @@ namespace MiddlewareWCF
             };
         }
 
-        public MailMessage AddAttachment(MailMessage message, Attachment attachment)
+        public void AddAttachment(MailMessage message, Attachment attachment)
         {
             message.Attachments.Add(attachment);
-            return message;
         }
 
         public bool SendEmail(string recipient, MailMessage message)

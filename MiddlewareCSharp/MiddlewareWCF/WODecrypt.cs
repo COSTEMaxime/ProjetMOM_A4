@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,11 +30,12 @@ namespace MiddlewareWCF
 
         public Message Execute(Message message)
         {
-            // start new thread ?
-            Dictionary<string, byte[]> documents;
+            Dictionary<string, string> documents;
+            string userLogin;
             try
             {
-                documents = (Dictionary<string, byte[]>)message.data[1];
+                userLogin = (string)message.data[0];
+                documents = (Dictionary<string, string>)message.data[1];
             }
             catch (Exception)
             {
@@ -93,30 +96,45 @@ namespace MiddlewareWCF
             // remove event
             object[] response = horribleList[guuid];
 
-            //string documentName, key, guuid, documentDecypher, secret, confidence;
+            string documentName, keyResponse, secret;
+            float confidence;
 
-            //try
-            //{
-            //    documentName = (string)message.data[0];
-            //    key = (string)message.data[1];
-            //    guuid = (string)message.data[2];
-            //    documentDecypher = (string)message.data[3];
-            //    secret = (string)message.data[4];
-            //    confidence = (string)message.data[4];
-            //}
-            //catch (Exception)
-            //{
-            //    return new Message
-            //    {
-            //        info = "Malformed message",
-            //        operationStatus = false
-            //    };
-            //}
+            try
+            {
+                documentName = (string)message.data[0];
+                keyResponse = (string)message.data[1];
+                secret = (string)message.data[3];
+                confidence = (float)message.data[4];
+            }
+            catch (Exception)
+            {
+                return new Message
+                {
+                    info = "Malformed message",
+                    operationStatus = false
+                };
+            }
             SecretFound.Remove(guuid);
             horribleList.Remove(guuid);
 
-            // generate pdf
-            // send mail
+            BLPDF bLPDF = new BLPDF();
+            using (Stream stream = bLPDF.GeneratePDF(confidence, documentName, keyResponse, secret))
+            {
+                BLEmail bLEmail = new BLEmail();
+                MailMessage mailMessage = bLEmail.CreateMailMessage("Secret found !", "We found the secret message in your documents, please see the attached report.");
+                bLEmail.AddAttachment(mailMessage, new Attachment(stream, new ContentType("application / pdf")));
+
+                string userEmail = DAO.GetInstance().GetUserByLogin(userLogin).Email;
+                if (!bLEmail.SendEmail(userEmail, mailMessage))
+                {
+                    return new Message
+                    {
+                        info = "Could not send an email to the following address : " + userEmail,
+                        operationStatus = false
+                    };
+                }
+            }
+
             return new Message
             {
                 operationStatus = true,
