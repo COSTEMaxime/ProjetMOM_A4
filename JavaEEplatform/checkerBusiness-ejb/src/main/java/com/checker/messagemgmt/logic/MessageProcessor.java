@@ -48,10 +48,9 @@ public class MessageProcessor implements MessageListener {
             ObjectMessage m = (ObjectMessage) message;
             msg = (MSG) (m).getObject();
             String messageToCheck = new String((byte[]) msg.getData()[3], StandardCharsets.UTF_8);
-            float confidence = 1;//checkMessage(messageToCheck);
+            float confidence = checkMessage(messageToCheck);
             if (confidence > 0.5f) {
                 String secret = findSecret(messageToCheck);
-                secret="hello sweetie";
                 if (secret != "") {
                     String key = (String) msg.getData()[1];
                     logFile("File "+msg.getData()[0]
