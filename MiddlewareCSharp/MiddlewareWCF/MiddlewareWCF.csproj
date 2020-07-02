@@ -62,6 +62,7 @@
     <Compile Include="BLEmail.cs" />
     <Compile Include="BLJEEMessage.cs" />
     <Compile Include="BLLogin.cs" />
+    <Compile Include="BLLogout.cs" />
     <Compile Include="BLPassword.cs" />
     <Compile Include="BLPDF.cs" />
     <Compile Include="BLRegister.cs" />
