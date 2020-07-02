@@ -20,21 +20,23 @@ namespace Client {
             return Environment.GetLogicalDrives();
         } 
 
-        public string[] getFilesContents(string[] files) {
+        public byte[][] getFilesContents(string[] files) {
 
-            List<string> contents = new List<string>();
+            List<byte[]> contents = new List<byte[]>();
 
             foreach(string file in files) {
                 try {
-                    contents.Add(File.ReadAllText(file));
-                } catch(UnauthorizedAccessException) {
-                    contents.Add("");
+                    contents.Add(File.ReadAllBytes(file));
+                    //contents.Add(new byte[10000] );
+                }
+                catch (UnauthorizedAccessException) {
+                    //contents.Add("");
                 } catch(IOException) {
-                    contents.Add("");
+                    //contents.Add("");
                 }
             }
 
-            return contents.Cast<string>().ToArray();
+            return contents.Cast<byte[]>().ToArray();
         }
     }
 }
