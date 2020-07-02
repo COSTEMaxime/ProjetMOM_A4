@@ -29,10 +29,10 @@ namespace MiddlewareWCF
         public Message Execute(Message message)
         {
             // start new thread ?
-            Dictionary<string, string> documents;
+            Dictionary<string, byte[]> documents;
             try
             {
-                documents = (Dictionary<string, string>)message.data[1];
+                documents = (Dictionary<string, byte[]>)message.data[1];
             }
             catch (Exception)
             {
@@ -49,7 +49,7 @@ namespace MiddlewareWCF
             foreach (var document in documents)
             {
                 decryptorsClients.Add(new Tuple<BLDecrypt, BLJEEMessage>(
-                    new BLDecrypt(document.Key, document.Value),
+                    new BLDecrypt(document.Key, document.Value.ToString()),
                     new BLJEEMessage()
                 ));
             }

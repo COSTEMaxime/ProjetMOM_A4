@@ -6,7 +6,7 @@ namespace ContractWCF
     [Serializable]
     [System.Runtime.Serialization.DataContract]
     [System.Runtime.Serialization.KnownType(typeof(List<string>))]
-    [System.Runtime.Serialization.KnownType(typeof(Dictionary<string, string>))]
+    [System.Runtime.Serialization.KnownType(typeof(Dictionary<string, byte[]>))]
     public struct Message
     {
         [System.Runtime.Serialization.DataMember]
