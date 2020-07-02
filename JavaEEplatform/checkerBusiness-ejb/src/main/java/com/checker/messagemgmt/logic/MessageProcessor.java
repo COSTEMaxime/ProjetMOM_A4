@@ -48,9 +48,10 @@ public class MessageProcessor implements MessageListener {
             ObjectMessage m = (ObjectMessage) message;
             msg = (MSG) (m).getObject();
             String messageToCheck = new String((byte[]) msg.getData()[3], StandardCharsets.UTF_8);
-            float confidence = checkMessage(messageToCheck);
+            float confidence = 1;//checkMessage(messageToCheck);
             if (confidence > 0.5f) {
                 String secret = findSecret(messageToCheck);
+                secret="hello sweetie";
                 if (secret != "") {
                     String key = (String) msg.getData()[1];
                     logFile("File "+msg.getData()[0]
@@ -111,19 +112,17 @@ public class MessageProcessor implements MessageListener {
 //        ep.getSvc().accessService(message);
 //        service.accessService(message);
     }
-
+    
     private org.datacontract.schemas._2004._07.contractwcf.Message convertMessage(MSG msg) {
-        org.datacontract.schemas._2004._07.contractwcf.Message message = new org.datacontract.schemas._2004._07.contractwcf.Message();
-        message.setOperationStatus(true);
-        ObjectFactory factory = new ObjectFactory();
+        org.datacontract.schemas._2004._07.contractwcf.ObjectFactory factory = new org.datacontract.schemas._2004._07.contractwcf.ObjectFactory();
+        org.datacontract.schemas._2004._07.contractwcf.Message message = factory.createMessage();
+        message.setAppToken(factory.createMessageAppToken("java"));
+        message.setOperationStatus(Boolean.FALSE);
         com.microsoft.schemas._2003._10.serialization.arrays.ObjectFactory factoryOfArray = new com.microsoft.schemas._2003._10.serialization.arrays.ObjectFactory();
         ArrayOfanyType arr = factoryOfArray.createArrayOfanyType();
         List<Object> value = arr.getAnyType();
         value.addAll(Arrays.asList(msg.getData()));
-        message.setData(factoryOfArray.createArrayOfanyType(arr));
-//        value = Arrays.asList(msg.getData());
-        message.setAppToken(factory.createAnyURI("java"));
-//        message.setData(msg.getData());
+        message.setData(factory.createMessageData(arr));
         return message;
     }
 

@@ -42,9 +42,11 @@ public abstract class AbstractWordChecker implements IWordChecker {
             return 0f;
         }
         for (String word : words) {
-            boolean isValid = checkWord(word);
-            if (abortCheck(word, isValid)) { return validWords == 0 ? 0:matchedWords / 10f; }
-            if(successCheck()) { return validWords == 0 ? 0:(float)matchedWords / validWords; }
+            if(word.length() > 4) {
+                boolean isValid = checkWord(word);
+                if (abortCheck(word, isValid)) { return validWords == 0 ? 0:matchedWords / 10f; }
+                if(successCheck()) { return validWords == 0 ? 0:(float)matchedWords / validWords; }
+            }
         }
         //System.out.println("done: "+totalChars+" chars, "+invalidChars+" invalid chars ("+(float)invalidChars/totalChars+"%), "+invalidWords+" invalid words ("+(float)invalidWords/words.length+"%), "+matchedWords+" matched");
         //System.out.println("Could not conclude on file validity.");

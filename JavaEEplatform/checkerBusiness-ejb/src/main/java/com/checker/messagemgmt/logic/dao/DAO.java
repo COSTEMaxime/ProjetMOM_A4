@@ -31,21 +31,16 @@ public class DAO {
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:mom", "admin", "admin");
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        try {
             frequencyMap = new HashMap<>();
             String queryString = "select * from frequency";
-            Statement stmt = conn.createStatement();
+                Statement stmt = conn.createStatement();
             ResultSet result = stmt.executeQuery(queryString);
             while (result.next()) {
                 String c = result.getString("letter");
                 int frequency = result.getInt("frequency");
                 frequencyMap.put(c.charAt(0), frequency);
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
