@@ -6,9 +6,6 @@
 package com.checker.messagemgmt.logic.checkers.word;
 
 import com.checker.messagemgmt.logic.dao.DAO;
-import java.util.HashSet;
-import java.util.List;
-
 /**
  *
  * @author Nico
@@ -17,8 +14,6 @@ public class DatabaseWordChecker extends AbstractWordChecker{
 
     @Override
     public boolean isWordInDictionary(String word) {
-        List<String> dict = DAO.getInstance().getDictionary();
-        HashSet<String> dictSet = new HashSet<>(dict);
-        return dictSet.contains(word);
+        return DAO.getInstance().isInDictionary(word);
     }
 }
