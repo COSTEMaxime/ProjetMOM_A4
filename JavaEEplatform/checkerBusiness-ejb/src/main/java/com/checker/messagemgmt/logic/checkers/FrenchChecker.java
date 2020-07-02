@@ -6,7 +6,7 @@
 package com.checker.messagemgmt.logic.checkers;
 
 import com.checker.messagemgmt.logic.checkers.character.CharacterChecker;
-import com.checker.messagemgmt.logic.checkers.word.ListWordChecker;
+import com.checker.messagemgmt.logic.checkers.word.DatabaseWordChecker;
 
 /**
  *
@@ -18,7 +18,7 @@ public class FrenchChecker implements IChecker{
     public float check(String txt) throws ArithmeticException{
         float frequencyCertainty = new CharacterChecker().check(txt);
         if( frequencyCertainty> 0.5f) {
-            return new ListWordChecker().check(txt);
+            return new DatabaseWordChecker().check(txt);
         }
         return frequencyCertainty;
     }

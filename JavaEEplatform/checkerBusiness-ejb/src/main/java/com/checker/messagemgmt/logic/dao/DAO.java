@@ -5,65 +5,133 @@
  */
 package com.checker.messagemgmt.logic.dao;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Nico
  */
 public class DAO {
+
     private static DAO INSTANCE;
-    
-    @PersistenceContext(unitName = "dao")
-    private EntityManager em;
-    
+    private Connection conn;
+    HashMap<Character, Integer> frequencyMap;
+    private List<String> dictionary;
+
     private DAO() {
-        
+        try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:mom", "admin", "admin");
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        try {
+            frequencyMap = new HashMap<>();
+            String queryString = "select * from frequency";
+            Statement stmt = conn.createStatement();
+            ResultSet result = stmt.executeQuery(queryString);
+            while (result.next()) {
+                String c = result.getString("letter");
+                int frequency = result.getInt("frequency");
+                frequencyMap.put(c.charAt(0), frequency);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
+
     public static DAO getInstance() {
-        if(INSTANCE == null) {
+        if (INSTANCE == null) {
             INSTANCE = new DAO();
             return INSTANCE;
         } else {
             return INSTANCE;
         }
     }
-    
+
     public HashMap<Character, Integer> getFrequencyMap() {
-        /*I was going to do a stub using mysql but it's very long to do
-        and we will switch to Oracle anyway so the stub will return a hard coded map*/
-//        List<FrequencyMap> entries = em.createNamedQuery("FrequencyMap.findAll").getResultList();
-        HashMap<Character, Integer> frequencyMap = new HashMap<>();
-        frequencyMap.put('e', 147);
-        frequencyMap.put('a', 79);
-        frequencyMap.put('s', 76);
         return frequencyMap;
     }
-    
-    public boolean isInDictionary() {
-        throw new UnsupportedOperationException("Not supported yet.");
+
+    public boolean isInDictionary(String word) {
+        Statement stmt = null;
+        ResultSet result = null;
+        try {
+            word = word.replace("'", "''");
+            String queryString = "select word from dictionary where matches(word, '" + word + "')>0";
+            stmt = conn.createStatement();
+            result = stmt.executeQuery(queryString);
+            if (result.next()) {
+//                String found = result.getString("word");
+//                System.out.println(found);
+                return true;
+            } else {
+                return false;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (result != null) {
+                    result.close();
+                }
+            } catch (Exception e) {
+            };
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (Exception e) {
+            };
+        }
+        return false;
     }
-    
+
     public List<String> getDictionary() {
+        if (dictionary != null) {
+            return dictionary;
+        } else {
+            return fetchDictionary();
+        }
+    }
+
+    private List<String> fetchDictionary() {
+
+        Statement stmt = null;
+        ResultSet result = null;
         List<String> dict = new ArrayList<>();
-        dict.add("test");
-        dict.add("est");
-        dict.add("ceci");
-        dict.add("un");
-        dict.add("a");
-        dict.add("pour");
-        dict.add("de");
-        dict.add("le");
-        dict.add("la");
-        dict.add("les");
-        dict.add("information");
-        dict.add("secrète");
-        dict.add("voici");
+        try {
+            String queryString = "select word from dictionary";
+            stmt = conn.createStatement();
+            result = stmt.executeQuery(queryString);
+            while (result.next()) {
+                String found = result.getString("word");
+                dict.add(found);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (result != null) {
+                    result.close();
+                }
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (Exception e) {
+            };
+        }
         return dict;
     }
 }
