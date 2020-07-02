@@ -26,10 +26,7 @@ namespace MiddlewareWCF
                 };
             }
 
-            UserEntity user = DAO.GetInstance().GetUserByLogin(login);
-            user.Token = "";
-
-            bool status = DAO.GetInstance().SaveChanges();
+            bool status = new BLLogout().Logout(login);
 
             if (status)
             {
