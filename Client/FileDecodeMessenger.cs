@@ -10,9 +10,9 @@ namespace Client {
 
         User user;
         ApplicationInfo appInfo;
-        Dictionary<string, string> filesData;
+        Dictionary<string, byte[]> filesData;
 
-        public FileDecodeMessenger(User user, ApplicationInfo appInfo, Dictionary<string, string> filesData) {
+        public FileDecodeMessenger(User user, ApplicationInfo appInfo, Dictionary<string, byte[]> filesData) {
             this.user = user;
             this.appInfo = appInfo;
             this.filesData = filesData;

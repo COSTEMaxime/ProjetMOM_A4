@@ -122,8 +122,8 @@ namespace Client {
         public async void decodeFiles(string[] files) {
             if(files.Length > 0) {
                 // Retreiving file contents
-                string[] contents = dao.getFilesContents(files);
-                Dictionary<string, string> data = new Dictionary<string, string>();
+                byte[][] contents = dao.getFilesContents(files);
+                Dictionary<string, byte[]> data = new Dictionary<string, byte[]>();
 
                 for (int i = 0; i < files.Length; i++)
                     if(contents[i].Length > 0)

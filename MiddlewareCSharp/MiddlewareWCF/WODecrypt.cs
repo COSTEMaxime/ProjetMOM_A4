@@ -52,7 +52,7 @@ namespace MiddlewareWCF
             foreach (var document in documents)
             {
                 decryptorsClients.Add(new Tuple<BLDecrypt, BLJEEMessage>(
-                    new BLDecrypt(document.Key, document.Value),
+                    new BLDecrypt(document.Key, document.Value.ToString()),
                     new BLJEEMessage()
                 ));
             }

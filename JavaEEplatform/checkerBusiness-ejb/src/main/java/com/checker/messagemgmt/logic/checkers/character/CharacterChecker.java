@@ -63,6 +63,7 @@ public class CharacterChecker implements ICharacterChecker {
     
     private float calculateCoherance(int totalMeasuredPercentage, int totalExpectedPercentage) {
         int delta = Math.abs(totalExpectedPercentage - totalMeasuredPercentage);
+        System.out.println("Measured "+totalMeasuredPercentage+"%, expected "+totalExpectedPercentage+"%.");
         return 1-((float)delta / totalExpectedPercentage);
     }
 
